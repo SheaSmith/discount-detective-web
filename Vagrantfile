@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/focal64"
+  config.vm.box = "rkrause/ubuntu-20.04-arm64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -49,6 +49,9 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
+  config.vm.provider "vmware_fusion" do |v|
+    v.gui = true
+  end
   # config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
@@ -70,14 +73,14 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "db" do |db|
     db.vm.hostname = "db"
-    db.vm.network "forwarded_port", guest: 1433, host: 11433, host_ip: "127.0.0.1"
+    db.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
     db.vm.network "private_network", ip: "192.168.100.11"
 
     # This following line is only necessary in the CS Labs... but that
     # may well be where markers mark your assignment.
-    db.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
+    #db.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
 
-    # db.vm.provision "shell", path: "build-db-vm.sh"
+    db.vm.provision "shell", path: "create-db-vm.sh"
   end
 
   config.vm.define "search" do |search|
@@ -87,9 +90,9 @@ Vagrant.configure("2") do |config|
   
     # This following line is only necessary in the CS Labs... but that
     # may well be where markers mark your assignment.
-    search.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
+    #search.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
   
-    # db.vm.provision "shell", path: "build-search-vm.sh"
+    search.vm.provision "shell", path: "create-search-vm.sh"
   end
 
 end

@@ -1,0 +1,11 @@
+[Unit]
+Description=discount-detective
+After=syslog.target
+
+[Service]
+User=myapp
+ExecStart=/var/app/api/gradlew bootRun
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
