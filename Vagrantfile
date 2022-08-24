@@ -99,6 +99,7 @@ Vagrant.configure("2") do |config|
     api.vm.hostname = "api"
     api.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
     api.vm.network "private_network", ip: "192.168.100.13"
+    api.vm.provision "shell", path: "create-api-vm.sh"
   end
 
 end

@@ -3,8 +3,9 @@ Description=discount-detective
 After=syslog.target
 
 [Service]
-User=myapp
-ExecStart=/var/app/api/gradlew bootRun
+User=discount-detective
+ExecStart=sh gradlew bootRun
+WorkingDirectory=/var/app/api
 SuccessExitStatus=143
 
 [Install]
