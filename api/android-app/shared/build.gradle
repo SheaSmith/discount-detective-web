@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.dokka'
+    id 'kover'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dokkaHtmlPartial {
+    moduleName.set("Shared")
+
+    dokkaSourceSets {
+        configureEach {
+            includes.from("README.md")
+        }
+    }
+}
+
+koverMerged {
+    enable()
+}
