@@ -8,6 +8,7 @@ plugins {
     id("com.android.application")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 repositories {
@@ -163,8 +164,8 @@ compose.desktop {
 compose.experimental {
     web.application {}
     uikit.application {
-        bundleIdPrefix = "org.jetbrains"
-        projectName = "Chat"
+        bundleIdPrefix = "nz.shea"
+        projectName = "DiscountDetective"
         deployConfigurations {
             simulator("IPhone8") {
                 //Usage: ./gradlew iosDeployIPhone8Debug
@@ -191,7 +192,7 @@ compose.desktop.nativeApplication {
     targets(kotlin.targets.getByName("macosX64"))
     distributions {
         targetFormats(TargetFormat.Dmg)
-        packageName = "Chat"
+        packageName = "DiscountDetective"
         packageVersion = "1.0.0"
     }
 }

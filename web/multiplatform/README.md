@@ -1,4 +1,8 @@
-# Chat example app
+# Discount Detective Multiplatform
+
+This is a fork of the [Android App](https://github.com/SheaSmith/discount-detective) designed to use
+Kotlin Multiplatform + JetBrains Compose in order to run on more platforms. Inevitably, it is much
+less feature rich and polished than the Android app.
 
 ## Run on Android:
 
