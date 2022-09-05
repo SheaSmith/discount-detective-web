@@ -23,6 +23,8 @@ dependencies {
 	implementation(project(":shared"))
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	runtimeOnly("mysql:mysql-connector-java")
+	implementation("org.hibernate.search:hibernate-search-mapper-orm:6.1.6.Final")
+	implementation("org.hibernate.search:hibernate-search-backend-elasticsearch:6.1.6.Final")
 }
 
 tasks.withType<KotlinCompile> {

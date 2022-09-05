@@ -13,6 +13,8 @@ apt-get update
 # Install ElasticSearch
 apt-get install -y elasticsearch
 
+sed -i'' -e 's/#network.host: 192.168.0.1/network.host: 0.0.0.0\ndiscovery.type: single-node/g' /etc/elasticsearch/elasticsearch.yml
+
 # Start the ElasticSearch service
 systemctl start elasticsearch
 

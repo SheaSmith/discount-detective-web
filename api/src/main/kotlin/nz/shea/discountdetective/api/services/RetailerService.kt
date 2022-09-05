@@ -14,4 +14,8 @@ class RetailerService(private val db: RetailerRepository) {
         db.saveAll(storageRetailers)
         return storageRetailers
     }
+
+    fun deleteAll() {
+        db.deleteAll()
+    }
 }

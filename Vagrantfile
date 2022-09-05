@@ -51,6 +51,7 @@ Vagrant.configure("2") do |config|
   #
   config.vm.provider "vmware_fusion" do |v|
     v.gui = true
+    v.ssh_info_public = true
   end
   # config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine

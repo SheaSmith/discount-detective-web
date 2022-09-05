@@ -37,7 +37,7 @@ class StorageRetailer() {
     @Column(nullable = false)
     var local: Boolean? = null
 
-    @JoinColumn(name = "retailerId", referencedColumnName = "id")
+    @JoinColumn(name = "retailerId", referencedColumnName = "id", updatable = false, insertable = false)
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     var stores: List<StorageStore>? = null
 

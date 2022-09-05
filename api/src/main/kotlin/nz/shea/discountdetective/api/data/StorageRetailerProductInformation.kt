@@ -1,6 +1,11 @@
 package nz.shea.discountdetective.api.data
 
+import com.example.cosc345.shared.models.Product
 import com.example.cosc345.shared.models.RetailerProductInformation
+import org.hibernate.search.mapper.pojo.automaticindexing.ReindexOnUpdate
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.AssociationInverseSide
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexingDependency
 import javax.persistence.*
 
 @Entity
@@ -12,14 +17,19 @@ class StorageRetailerProductInformation() {
     var productId: String? = null
 
     @Column(nullable = false)
+    @FullTextField
     var name: String? = null
 
+    @FullTextField
     var brandName: String? = null
+
+    @FullTextField
     var variant: String? = null
 
     @Column(nullable = false)
     var saleType: String? = null
 
+    @FullTextField
     private var quantity: String? = null
     private var weight: Int? = null
 
@@ -34,8 +44,8 @@ class StorageRetailerProductInformation() {
     @Column(nullable = false)
     var verified: Boolean? = null
 
-    @JoinColumn(name = "productId", referencedColumnName = "id")
-    @JoinColumn(name = "retailerId", referencedColumnName = "retailerId")
+    @JoinColumn(name = "productId", referencedColumnName = "id", updatable = false, insertable = false)
+    @JoinColumn(name = "retailerId", referencedColumnName = "retailerId", updatable = false, insertable = false)
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     var pricing: List<StorageStorePricingInformation>? = null
     
