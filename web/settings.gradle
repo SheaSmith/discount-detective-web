@@ -1,0 +1,28 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven {
+            url "https://maven.pkg.jetbrains.space/public/p/compose/dev"
+        }
+    }
+
+    plugins {
+        id 'com.android.application' version '7.2.2'
+        id 'org.jetbrains.compose' version '1.2.0-alpha01-dev770'
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://maven.pkg.jetbrains.space/public/p/compose/dev"
+        }
+    }
+}
+rootProject.name = "DiscountDetective"
+include ':shared'
+include ':multiplatform'
