@@ -10,30 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/PageDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../create-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../create-api-vm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update-api-vm.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Vagrantfile" beforeDir="false" afterPath="$PROJECT_DIR$/../Vagrantfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/Navigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/Navigation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchProductCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchProductCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchTopAppBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchTopAppBar.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/ProductRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/ProductRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RepositoryBase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RepositoryBase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RetailerRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RetailerRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/ProductScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/ProductScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/SearchScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/SearchScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/ProductViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/ProductViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/jsMain/kotlin/main.js.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/kotlin/main.js.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/jsMain/resources/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/resources/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/shea/.android/avd/Pixel_2_API_28.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -106,9 +92,9 @@
       <recent name="$PROJECT_DIR$/.." />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.web [jsBrowserRun]">
+  <component name="RunManager" selected="Gradle.web [jsBrowserDistribution]">
     <configuration name="multiplatform" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="DiscountDetective.multiplatform.main" />
+      <module name="DiscountDetective.multiplatform" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -116,7 +102,6 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
-      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -156,7 +141,6 @@
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
         <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
-        <option name="PROFILING_MODE" value="NOT_SET" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -165,6 +149,27 @@
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="web [jsBrowserDistribution]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jsBrowserDistribution" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="web [jsBrowserRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -189,6 +194,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.web [jsBrowserDistribution]" />
         <item itemvalue="Gradle.web [jsBrowserRun]" />
       </list>
     </recent_temporary>
@@ -222,11 +228,7 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <ignored-roots>
-      <path value="$PROJECT_DIR$" />
-    </ignored-roots>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial multiplatform conversion from the main Discount Detective project" />

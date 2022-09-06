@@ -104,4 +104,12 @@ Vagrant.configure("2") do |config|
     api.vm.provision "shell", path: "update-api-vm.sh", run: "always"
   end
 
+  config.vm.define "web" do |api|
+    api.vm.hostname = "web"
+    api.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
+    api.vm.network "private_network", ip: "192.168.100.14"
+    api.vm.provision "shell", path: "create-web-vm.sh"
+    api.vm.provision "shell", path: "update-web-vm.sh", run: "always"
+  end
+
 end
