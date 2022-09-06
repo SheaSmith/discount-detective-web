@@ -4,111 +4,48 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/androidMain/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/androidMain/kotlin/AlertDialog2.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/androidMain/kotlin/HttpClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/androidMain/kotlin/MainActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/androidMain/res/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/androidMain/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/AlertDialog.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/HttpClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/Navigation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/WindowSizeClass.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/Flow.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/Layout.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/MinimumHeight.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/ScrollBar.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/main/HandleNavigationClick.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/main/MainBottomNavigationBar.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/main/MainContent.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/main/MainNavigationRail.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/main/NavigationDrawerContent.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/main/NavigationWrapper.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/product/AddToShoppingListBlock.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/product/ProductTitle.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchError.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchProductCard.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchProductPricingBlock.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchTopAppBar.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/placeholder/Placeholder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/placeholder/PlaceholderHighlight.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/placeholder/material/Placeholder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/placeholder/material/PlaceholderHighlight.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/MainScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/ProductScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/SearchScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/ShoppingListScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/constants/LocaleConstants.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/extensions/String.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/Product.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/Retailer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/RetailerProductInformation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/SaleType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/Store.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/StorePricingInformation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/shared/models/Units.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/theme/Color.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/theme/Theme.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/theme/Type.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/utils/WindowStateUtils.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/ProductViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/ShoppingListViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/desktopMain/kotlin/HttpClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/desktopMain/kotlin/main.desktop.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/kotlin/HttpClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/kotlin/main.js.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/resources/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/resources/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/macosMain/kotlin/HttpClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/macosMain/kotlin/main.macos.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/uikitMain/kotlin/HttpClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/uikitMain/kotlin/main.uikit.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/constants/LocaleConstants.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/extensions/String.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/Product.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/Retailer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/RetailerProductInformation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/SaleType.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/Store.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/StorePricingInformation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/com/example/cosc345/shared/models/Units.kt" afterDir="false" />
-    </list>
+    <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="Initial multiplatform conversion from the main Discount Detective project" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/shea/.android/avd/Pixel_2_API_28.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/multiplatform">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DiscountDetective" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DiscountDetective" type="f1a62948:ProjectNode" />
+                <item name="multiplatform" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DiscountDetective" type="f1a62948:ProjectNode" />
+                <item name="multiplatform" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -205,6 +142,14 @@
       <option name="presentableId" value="Default" />
       <updated>1662355539081</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial multiplatform conversion from the main Discount Detective project">
+      <created>1662356004087</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1662356004087</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,5 +163,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial multiplatform conversion from the main Discount Detective project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial multiplatform conversion from the main Discount Detective project" />
   </component>
 </project>
