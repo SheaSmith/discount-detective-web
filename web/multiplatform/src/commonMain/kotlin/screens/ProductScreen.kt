@@ -31,7 +31,6 @@ import com.example.cosc345.shared.models.Product
 import com.example.cosc345.shared.models.Retailer
 import com.example.cosc345.shared.models.RetailerProductInformation
 import com.example.cosc345.shared.models.StorePricingInformation
-import com.example.cosc345project.ui.components.product.AddToShoppingListBlock
 import com.example.cosc345project.ui.components.product.ProductTitle
 import components.AsyncImage
 import kotlinx.coroutines.channels.Channel
@@ -215,42 +214,42 @@ fun RetailerSlot(
     }
 }
 
-/**
- * Function used to handle adding the product to the shopping list.
- *
- * @param product The product selected to be added to the shopping list.
- * @param snackbarHostState The passed down SnackbarHostState.
- * @param retailers List of retailers who are selling the product.
- */
-@Composable
-fun ProductInformation(
-    product: Pair<String, Product>?,
-    snackbarHostState: SnackbarHostState,
-    retailers: Map<String, Retailer>?,
-    viewModel: ProductViewModel
-) {
-    val bestInformation = product?.second?.getBestInformation()
-    val loading = product == null
-
-    Column(
-        modifier = Modifier
-            .padding(start = 10.dp, end = 10.dp)
-    )
-    {
-
-        AddToShoppingListBlock(
-            snackbarHostState = snackbarHostState,
-            productPair = product,
-            retailers = retailers,
-            loading = loading,
-            onAddToShoppingList = { productId, retailerProductInfoId, storeId, quantity ->
-                viewModel.addToShoppingList(productId, retailerProductInfoId, storeId, quantity)
-            }
-        )
-    }
-
-
-}
+///**
+// * Function used to handle adding the product to the shopping list.
+// *
+// * @param product The product selected to be added to the shopping list.
+// * @param snackbarHostState The passed down SnackbarHostState.
+// * @param retailers List of retailers who are selling the product.
+// */
+//@Composable
+//fun ProductInformation(
+//    product: Pair<String, Product>?,
+//    snackbarHostState: SnackbarHostState,
+//    retailers: Map<String, Retailer>?,
+//    viewModel: ProductViewModel
+//) {
+//    val bestInformation = product?.second?.getBestInformation()
+//    val loading = product == null
+//
+//    Column(
+//        modifier = Modifier
+//            .padding(start = 10.dp, end = 10.dp)
+//    )
+//    {
+//
+//        AddToShoppingListBlock(
+//            snackbarHostState = snackbarHostState,
+//            productPair = product,
+//            retailers = retailers,
+//            loading = loading,
+//            onAddToShoppingList = { productId, retailerProductInfoId, storeId, quantity ->
+//                viewModel.addToShoppingList(productId, retailerProductInfoId, storeId, quantity)
+//            }
+//        )
+//    }
+//
+//
+//}
 
 /**
  * Function used to layout the main content of the product screen page.
@@ -328,14 +327,14 @@ fun ProductScreen(
                     ProductImage(image = product?.second?.getBestInformation()?.image)
                 }
 
-                item {
-                    ProductInformation(
-                        product = product,
-                        snackbarHostState = snackbarHostState,
-                        retailers = retailers,
-                        viewModel = viewModel
-                    )
-                }
+//                item {
+//                    ProductInformation(
+//                        product = product,
+//                        snackbarHostState = snackbarHostState,
+//                        retailers = retailers,
+//                        viewModel = viewModel
+//                    )
+//                }
 
                 if (localRetailerProductInformation.isNotEmpty() && retailers.isNotEmpty()) {
                     item {

@@ -29,5 +29,4 @@ less feature rich and polished than the Android app.
 
 ## Run on iOS device
 
-- Read about iOS target in [falling-balls-mpp/README.md](../falling-balls-mpp/README.md)
 - `./gradlew iosDeployDeviceRelease`

@@ -40,7 +40,9 @@ class ProductResource(val service: ProductService, val component: ScraperTask) {
 }
 
 @RestController
+@RequestMapping("/retailers")
 class RetailerResource(val service: RetailerService) {
+	@RequestMapping("/")
 	@GetMapping
 	fun index(): Map<String, Retailer> = service.findRetailers()
 }

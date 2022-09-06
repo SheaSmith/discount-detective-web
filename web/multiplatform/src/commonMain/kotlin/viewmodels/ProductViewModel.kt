@@ -1,9 +1,9 @@
 package viewmodels
 
-import com.example.cosc345.shared.models.Product
 import com.example.cosc345.shared.models.Retailer
 import com.example.cosc345.shared.models.RetailerProductInformation
 import kotlinx.coroutines.flow.MutableStateFlow
+import models.Product
 import moe.tlaster.precompose.viewmodel.ViewModel
 
 class ProductViewModel : ViewModel() {

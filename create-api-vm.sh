@@ -19,9 +19,5 @@ cp /var/app/api/application-deployed.properties /var/app/api/config/application.
 # Create the user for running the API.
 useradd -m discount-detective
 
-# Transfer ownership of the app directory to this new user, so they can run, modify and access all subfolders/files.
-chown -R discount-detective:discount-detective /var/app
-
-# Enable and start the systemd service. The app will now build and run.
-systemctl enable discount-detective
-systemctl start discount-detective
+# Git ownership exemption
+git config --global --add safe.directory /var/app

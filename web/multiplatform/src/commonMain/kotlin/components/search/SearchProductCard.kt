@@ -12,16 +12,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.example.cosc345.shared.models.Product
-import com.example.cosc345.shared.models.Retailer
 import com.example.cosc345project.ui.components.MinimumHeightState
 import com.example.cosc345project.ui.components.minimumHeightModifier
-import com.example.cosc345project.ui.components.product.AddToShoppingListBlock
 import com.example.cosc345project.ui.components.product.ProductTitle
 import components.AsyncImage
 import components.FlowMainAxisAlignment
 import components.FlowRow
 import kotlinx.coroutines.CoroutineScope
+import models.Product
+import models.Retailer
 import moe.tlaster.precompose.navigation.Navigator
 import placeholder.PlaceholderHighlight
 import placeholder.material.fade
@@ -140,15 +139,6 @@ fun SearchProductCard(
 
                 }
             }
-
-            AddToShoppingListBlock(
-                snackbarHostState,
-                productPair,
-                retailers,
-                loading,
-                onAddToShoppingList,
-                coroutineScope
-            )
 
         }
     }

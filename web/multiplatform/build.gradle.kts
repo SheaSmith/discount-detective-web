@@ -93,6 +93,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 api("moe.tlaster:precompose:1.3.3")
                 implementation("io.ktor:ktor-client-core:2.1.0")
+                implementation("io.ktor:ktor-client-content-negotiation:2.1.0")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.0")
             }
         }
 
