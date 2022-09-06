@@ -16,6 +16,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
+import com.example.cosc345project.ui.components.search.SearchError
 import com.example.cosc345project.ui.components.search.SearchProductCard
 import com.example.cosc345project.ui.components.search.SearchTopAppBar
 import kotlinx.coroutines.channels.Channel
@@ -42,19 +43,12 @@ fun SearchScreen(
 ) {
     val search by viewModel.searchQuery.collectAsState()
     val retailers by viewModel.retailers.collectAsState()
-    val suggestions by viewModel.suggestions.collectAsState()
-    //val searchResults by viewModel.searchLiveData
-    //val productResults = searchResults.collectAsLazyPagingItems()
-    var loading by remember {
-        mutableStateOf(false)
-    }
+    val searchResults by viewModel.searchResults.collectAsState()
+    val loading by viewModel.loading
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
         rememberTopAppBarScrollState()
     )
     val focusManager = LocalFocusManager.current
-    var showSuggestions by remember {
-        viewModel.showSuggestions
-    }
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -77,7 +71,6 @@ fun SearchScreen(
                             }
                         },
                         onFocusChanged = {
-                            showSuggestions = it.isFocused
                         },
                         onSearch = {
                             viewModel.query()
@@ -100,7 +93,6 @@ fun SearchScreen(
     ) { innerPadding ->
         LaunchedEffect(Unit) {
             scrollListener?.receiveAsFlow()?.collect {
-                println(it)
                 listState.scrollBy(it.toFloat())
             }
         }
@@ -133,64 +125,37 @@ fun SearchScreen(
             //val loadState = productResults.loadState.refresh
             //loading = loadState == LoadState.Loading
 
-            if (showSuggestions && suggestions.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Search Suggestions",
-                        style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
-                }
-                items(
-                    items = suggestions
-                ) {
-                    ListItem(
-                        headlineText = { Text(text = it) },
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clickable {
-                                viewModel.setQuery(it, true)
-                                focusManager.clearFocus()
-                            }
-                    )
-                }
-            } else {
 
-                if (true) {
-                    items(10) {
+            if (loading) {
+                items(10) {
+                    SearchProductCard(
+                        null,
+                        true,
+                        navController,
+                        retailers,
+                        snackbarHostState,
+                        coroutineScope
+                    )
+                }
+            }
+                else if (retailers.isNotEmpty() && searchResults.isNotEmpty()) {
+                    items(
+                        items = searchResults.toList(),
+                        key = { product -> product.first }
+                    ) {
                         SearchProductCard(
-                            null,
-                            false,
+                            it,
+                            loading,
                             navController,
                             retailers,
                             snackbarHostState,
-                            coroutineScope
+                            coroutineScope,
+                            onAddToShoppingList = { productId, retailerProductInfoId, storeId, quantity ->
+
+                            }
                         )
                     }
-                }
-//                else if (retailers.isNotEmpty() && productResults.itemCount != 0) {
-//                    items(
-//                        items = productResults,
-//                        key = { product -> product.first }
-//                    ) {
-//                        SearchProductCard(
-//                            it,
-//                            loading,
-//                            navController,
-//                            retailers,
-//                            snackbarHostState,
-//                            coroutineScope,
-//                            onAddToShoppingList = { productId, retailerProductInfoId, storeId, quantity ->
-//                                viewModel.addToShoppingList(
-//                                    productId,
-//                                    retailerProductInfoId,
-//                                    storeId,
-//                                    quantity
-//                                )
-//                            }
-//                        )
-//                    }
-//                } else if (loadState !is LoadState.Error && retailers.isNotEmpty()) {
+                } else if (searchResults.isEmpty() && retailers.isNotEmpty()) {
 //                    item {
 //                        SearchError(
 //                            title = R.string.no_results,
@@ -198,7 +163,7 @@ fun SearchScreen(
 //                            icon = Icons.Rounded.SearchOff
 //                        )
 //                    }
-//                } else {
+                } else {
 //                    item {
 //                        SearchError(
 //                            title = R.string.no_internet,
@@ -208,8 +173,8 @@ fun SearchScreen(
 //                                viewModel.query()
 //                            })
 //                    }
-//                }
-            }
+                }
+
         }
 
     }

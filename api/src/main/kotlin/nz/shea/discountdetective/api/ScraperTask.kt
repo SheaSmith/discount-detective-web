@@ -6,8 +6,11 @@ import nz.shea.discountdetective.api.data.StorageProduct
 import nz.shea.discountdetective.api.services.ProductService
 import nz.shea.discountdetective.api.services.RetailerService
 import org.hibernate.search.mapper.orm.Search
+import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @Component
@@ -17,7 +20,9 @@ class ScraperTask(
     private val entityManager: EntityManager
 ) {
 
+    @Transactional
     @Scheduled(cron = "0 2 * * *")
+    @EventListener(ApplicationReadyEvent::class)
     fun runScrapers() {
         val matcher = Matcher()
 

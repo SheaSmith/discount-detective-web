@@ -8,6 +8,7 @@ plugins {
     id("com.android.application")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 repositories {
@@ -92,6 +93,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 api("moe.tlaster:precompose:1.3.3")
                 implementation("io.ktor:ktor-client-core:2.1.0")
+                implementation("io.ktor:ktor-client-content-negotiation:2.1.0")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.0")
             }
         }
 
@@ -163,8 +166,8 @@ compose.desktop {
 compose.experimental {
     web.application {}
     uikit.application {
-        bundleIdPrefix = "org.jetbrains"
-        projectName = "Chat"
+        bundleIdPrefix = "nz.shea"
+        projectName = "DiscountDetective"
         deployConfigurations {
             simulator("IPhone8") {
                 //Usage: ./gradlew iosDeployIPhone8Debug
@@ -191,7 +194,7 @@ compose.desktop.nativeApplication {
     targets(kotlin.targets.getByName("macosX64"))
     distributions {
         targetFormats(TargetFormat.Dmg)
-        packageName = "Chat"
+        packageName = "DiscountDetective"
         packageVersion = "1.0.0"
     }
 }

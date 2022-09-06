@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.cosc345.shared.models.RetailerProductInformation
 import components.FlowRow
+import models.RetailerProductInformation
 import placeholder.PlaceholderHighlight
 import placeholder.material.fade
 import placeholder.material.placeholder

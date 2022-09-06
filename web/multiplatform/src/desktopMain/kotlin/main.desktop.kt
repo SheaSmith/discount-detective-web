@@ -28,20 +28,3 @@ fun main() {
         }
     }
 }
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-actual fun AlertDialog2(
-    onDismissRequest: () -> Unit,
-    confirmButton: @Composable () -> Unit,
-    dismissButton: @Composable () -> Unit,
-    text: @Composable () -> Unit,
-    title: @Composable () -> Unit,
-    icon: @Composable () -> Unit
-) = AlertDialog(
-    onDismissRequest,
-    confirmButton,
-    dismissButton = dismissButton,
-    text = text,
-    title = title
-)

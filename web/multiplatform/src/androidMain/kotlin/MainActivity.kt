@@ -1,4 +1,4 @@
-package org.jetbrains.chat
+package nz.shea.discountdetective
 
 import android.app.Activity
 import android.os.Bundle

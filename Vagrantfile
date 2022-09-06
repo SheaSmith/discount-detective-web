@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "rkrause/ubuntu-20.04-arm64"
+  config.vm.box = "ubuntu/focal64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -49,17 +49,17 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  config.vm.provider "vmware_fusion" do |v|
-    v.gui = true
-    v.ssh_info_public = true
-  end
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
+  # config.vm.provider "vmware_fusion" do |v|
+  #   v.gui = true
+  #   v.ssh_info_public = true
   # end
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    # vb.gui = true
+  
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -85,7 +85,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "search" do |search|
-    search.vm.hostname = "db"
+    search.vm.hostname = "search"
     search.vm.network "forwarded_port", guest: 9200, host: 9200, host_ip: "127.0.0.1"
     search.vm.network "private_network", ip: "192.168.100.12"
   
@@ -101,6 +101,7 @@ Vagrant.configure("2") do |config|
     api.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
     api.vm.network "private_network", ip: "192.168.100.13"
     api.vm.provision "shell", path: "create-api-vm.sh"
+    api.vm.provision "shell", path: "update-api-vm.sh", run: "always"
   end
 
 end

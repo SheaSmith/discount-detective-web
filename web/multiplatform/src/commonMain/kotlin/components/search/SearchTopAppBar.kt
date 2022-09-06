@@ -18,8 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import org.jetbrains.skiko.SkikoKey
 
 /**
  * A modified version of the top app bar that contains a search form.
@@ -69,14 +71,14 @@ fun SearchTopAppBar(
                         .weight(1f)
                         .padding(0.dp)
                         .onFocusChanged(onFocusChanged)
-//                        .onKeyEvent {
-//                            if (it.nativeKeyEvent.key == SkikoKey.KEY_ENTER) {
-//                                onSearch(null)
-//                                true
-//                            } else {
-//                                false
-//                            }
-//                        }
+                        .onKeyEvent {
+                            if (it.nativeKeyEvent.key == SkikoKey.KEY_ENTER) {
+                                onSearch(null)
+                                true
+                            } else {
+                                false
+                            }
+                        }
                     ,
                     textStyle = MaterialTheme.typography.bodyMedium,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
