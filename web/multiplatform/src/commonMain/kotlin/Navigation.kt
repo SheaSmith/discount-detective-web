@@ -16,6 +16,6 @@ enum class Navigation(
 //    SETTINGS("settings", R.string.settings, Icons.Rounded.Settings);
 
     companion object {
-        val topLevel = arrayOf(SEARCH, SHOPPING_LIST)
+        val topLevel = arrayOf(SEARCH)
     }
 }

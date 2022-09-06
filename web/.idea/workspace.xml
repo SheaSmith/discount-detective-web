@@ -10,33 +10,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/Product.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/Retailer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/RetailerProductInformation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/Store.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/StorePricingInformation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/ProductRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RepositoryBase.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RetailerRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Vagrantfile" beforeDir="false" afterPath="$PROJECT_DIR$/../Vagrantfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/models/PageDto.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../create-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../create-api-vm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/multiplatform_desktop_1_0_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/multiplatform_desktop_1_0_SNAPSHOT.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/multiplatform_js_1_0_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/multiplatform_js_1_0_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../update-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update-api-vm.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/androidMain/kotlin/AlertDialog2.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/AlertDialog.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/product/AddToShoppingListBlock.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/product/ProductTitle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/product/ProductTitle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/Navigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/Navigation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchProductCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchProductCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchTopAppBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/search/SearchTopAppBar.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/ProductRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/ProductRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RepositoryBase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RepositoryBase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RetailerRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/repository/RetailerRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/ProductScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/ProductScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/SearchScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/screens/SearchScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/ProductViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/ProductViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/desktopMain/kotlin/main.desktop.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/desktopMain/kotlin/main.desktop.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/jsMain/kotlin/main.js.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/kotlin/main.js.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/macosMain/kotlin/main.macos.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/macosMain/kotlin/main.macos.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/jsMain/resources/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/jsMain/resources/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

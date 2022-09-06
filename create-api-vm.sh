@@ -21,3 +21,6 @@ useradd -m discount-detective
 
 # Git ownership exemption
 git config --global --add safe.directory /var/app
+
+# Enable service
+systemctl enable discount-detective

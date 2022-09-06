@@ -34,9 +34,9 @@ class SearchViewModel : ViewModel() {
     }
 
     fun query() {
+        loading.value = true
         viewModelScope.launch {
-            loading.value = true
-            searchResults.value = productRepository.search(searchQuery.value)
+            searchResults.value = productRepository.search(searchQuery.value).content
             loading.value = false
         }
     }

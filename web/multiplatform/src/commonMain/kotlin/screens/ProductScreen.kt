@@ -27,16 +27,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cosc345.shared.models.Product
-import com.example.cosc345.shared.models.Retailer
-import com.example.cosc345.shared.models.RetailerProductInformation
-import com.example.cosc345.shared.models.StorePricingInformation
 import com.example.cosc345project.ui.components.product.ProductTitle
 import components.AsyncImage
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import models.Retailer
+import models.RetailerProductInformation
+import models.StorePricingInformation
 import moe.tlaster.precompose.navigation.Navigator
 import viewmodels.ProductViewModel
 
@@ -47,6 +46,7 @@ import viewmodels.ProductViewModel
  */
 @Composable
 fun ProductImage(image: String?) {
+    println(image)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,7 +56,7 @@ fun ProductImage(image: String?) {
         horizontalArrangement = Arrangement.Center
     ) {
         AsyncImage(
-            url = image!!,
+            url = image,
             contentDescription = null,
             modifier = Modifier
                 .padding(0.dp)
@@ -92,30 +92,49 @@ fun RetailerSlot(
         Row {
             var showRetailer by remember { mutableStateOf(false) }
 
-            Surface(
+
+
+
+            Column(
                 modifier = Modifier
-                    .padding(start = 5.dp)
-                    .width(45.dp)
-                    .height(45.dp)
+                    .weight(1.0f)
                     .align(Alignment.CenterVertically)
-                    .clickable {
-                        showRetailer = !showRetailer
-                    },
-                shape = CircleShape,
-                color = Color(if (isSystemInDarkTheme()) retailer.colourDark!! else retailer.colourLight!!)
             ) {
 
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+                        .fillMaxHeight()
+                        .padding(end = 10.dp),
+                    //.width(intrinsicSize = IntrinsicSize.Min)
+
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = retailer.initialism!!,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(if (isSystemInDarkTheme()) retailer.onColourDark!! else retailer.onColourLight!!)
-                    )
-                }
+                    Surface(
+                        modifier = Modifier
+                            .padding(start = 5.dp)
+                            .width(45.dp)
+                            .height(45.dp)
+                            .align(Alignment.CenterVertically)
+                            .clickable {
+                                showRetailer = !showRetailer
+                            },
+                        shape = CircleShape,
+                        color = Color(if (isSystemInDarkTheme()) retailer.colourDark!! else retailer.colourLight!!)
+                    ) {
+
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = retailer.initialism!!,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(if (isSystemInDarkTheme()) retailer.onColourDark!! else retailer.onColourLight!!)
+                            )
+                        }
 
 //                DropdownMenu(expanded = showRetailer, onDismissRequest = { showRetailer = false }) {
 //                    DropdownMenuItem(
@@ -125,24 +144,10 @@ fun RetailerSlot(
 //                        enabled = false
 //                    )
 //                }
-            }
+                    }
 
-            Spacer(Modifier.width(10.0.dp))
+                    Spacer(Modifier.width(10.0.dp))
 
-            Column(
-                modifier = Modifier
-                    .weight(0.5f)
-                    .align(Alignment.CenterVertically)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .fillMaxHeight()
-                        .padding(end = 10.dp),
-                    //.width(intrinsicSize = IntrinsicSize.Min)
-
-                    contentAlignment = Alignment.CenterStart
-                ) {
                     Text(
                         text = store.name!!,
                         fontSize = 14.sp,
@@ -156,7 +161,7 @@ fun RetailerSlot(
 
             Column(
                 modifier = Modifier
-                    .weight(0.4f)
+                    .weight(0.5f)
                     .align(Alignment.CenterVertically)
             ) {
                 val price = pricingInformation.price?.let {
@@ -174,7 +179,7 @@ fun RetailerSlot(
 
             Column(
                 modifier = Modifier
-                    .weight(0.4f)
+                    .weight(0.5f)
                     .align(Alignment.CenterVertically)
             ) {
                 if (pricingInformation.discountPrice != null) {

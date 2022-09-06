@@ -93,7 +93,6 @@ fun SearchScreen(
     ) { innerPadding ->
         LaunchedEffect(Unit) {
             scrollListener?.receiveAsFlow()?.collect {
-                println(it)
                 listState.scrollBy(it.toFloat())
             }
         }

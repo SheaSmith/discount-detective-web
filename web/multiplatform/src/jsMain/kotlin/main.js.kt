@@ -58,7 +58,6 @@ fun main() {
         if (event is WheelEvent) {
             event.stopPropagation()
             GlobalScope.launch {
-                println("Scroll")
                 scrollListener.trySend(event.deltaY)
             }
         }

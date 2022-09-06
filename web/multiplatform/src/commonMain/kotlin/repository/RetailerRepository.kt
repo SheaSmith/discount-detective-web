@@ -6,6 +6,6 @@ import models.Retailer
 
 class RetailerRepository : RepositoryBase() {
     suspend fun getRetailers(): Map<String, Retailer> {
-        return client.get("${baseUrl}/retailers").body()
+        return client.get("${baseUrl}/retailers/").body()
     }
 }

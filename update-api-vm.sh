@@ -1,3 +1,6 @@
+# Stop service (if running)
+systemctl stop discount-detective
+
 # Navigate to the app folder
 cd /var/app
 

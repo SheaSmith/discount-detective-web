@@ -82,7 +82,7 @@ fun SearchProductCard(
             ) {
                 if (info?.image != null || loading) {
                     AsyncImage(
-                        url = info?.image!!,
+                        url = info?.image,
                         contentDescription = "Product image",
                         modifier = Modifier
                             .fillMaxHeight()
