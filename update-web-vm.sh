@@ -8,13 +8,13 @@ git pull origin master
 cd web
 
 # Compile kotlin and build
-./gradlew jsBrowserDistribution
+./gradlew jsBrowserDevelopmentExecutableDistribution
 
 # Fix for bug https://github.com/JetBrains/compose-jb/issues/2273 as skiio files are not generated on first build
-./gradlew jsBrowserDistribution
+./gradlew jsBrowserDevelopmentExecutableDistribution
 
 # Clear /var/www/html
 rm -r /var/www/html/*
 
 # Add new web files
-cp -r multiplatform/build/distributions/* /var/www/html/
+cp -r multiplatform/build/developmentExecutable/* /var/www/html/

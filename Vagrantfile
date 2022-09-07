@@ -58,7 +58,7 @@ Vagrant.configure("2") do |config|
     # vb.gui = true
   
     # Customize the amount of memory on the VM:
-    vb.memory = "2048"
+    vb.memory = "1024"
   end
   #
   # View the documentation for the provider you are using for more
@@ -102,14 +102,20 @@ Vagrant.configure("2") do |config|
     api.vm.network "private_network", ip: "192.168.100.13"
     api.vm.provision "shell", path: "create-api-vm.sh"
     api.vm.provision "shell", path: "update-api-vm.sh", run: "always"
+    api.vm.provider "virtualbox" do |apivm|
+      apivm.memory = 2048
+    end
   end
 
-  config.vm.define "web" do |api|
-    api.vm.hostname = "web"
-    api.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
-    api.vm.network "private_network", ip: "192.168.100.14"
-    api.vm.provision "shell", path: "create-web-vm.sh"
-    api.vm.provision "shell", path: "update-web-vm.sh", run: "always"
+  config.vm.define "web" do |web|
+    web.vm.hostname = "web"
+    web.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
+    web.vm.network "private_network", ip: "192.168.100.14"
+    web.vm.provision "shell", path: "create-web-vm.sh"
+    web.vm.provision "shell", path: "update-web-vm.sh", run: "always"
+    web.vm.provider "virtualbox" do |webvm|
+      webvm.memory = 4096
+    end
   end
 
 end
