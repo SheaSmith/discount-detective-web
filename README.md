@@ -5,6 +5,18 @@ This project is intended to be a multiplatform fork of the [original Android app
 
 Currently, the app has a subset of the feature set of the original app, but it is intended that this will reach parity as Jetbrains Compose matures, and this app might eventually replace the original.
 
+## Deployment
+To deploy, simply run `vagrant up`. The VMs will provision unattended, and the API will load in data once it has compiled (both tasks occur in the background). Compilation information is available for the frontend by simply viewing the output of the provisioning command, but in order to view the compilation status of the API, you need to SSH in (e.g. through `vagrant ssh api`) and then view the Systemd logs for the service (`sudo journalctl -f -u discount-detective.service`).
+
+Once the provisioning has completed, the frontend will be available at http://localhost:8081. The API is at http://localhost:8080, with ElasticSearch and MySQL being at localhost:9200 and localhost:3306 respectively.
+
+## Local Development
+To develop locally, the easiest way is to create VMs for the DB and ElasticSearch instances. You can do this by running `vagrant up db` and `vagrant up search` (assuming all other VMs have been halted). You will need to uncomment the port forwarding lines in the Vagrant file in order to do this (and then reload each VM).
+
+You can then run the API and the frontend, and access them at the same addresses. If you wish to run the API and frontend concurrently locally, then make sure the API was started first, so it can claim port 8080, otherwise the frontend will try and get it. You can also run either of the components in their respective VM images if you only need to work on one component (e.g. `vagrant up api` for the API or `vagrant up web` for the frontend).
+
+The VMs will automatically pull from the api/web folders of your current directory when deploying. To update their contents, you can simply run `vagrant reload` after you have made changes.
+
 ## Technical Structure
 For the code parts of the app, there are two parts.
 
@@ -41,15 +53,3 @@ graph TD
         C --> D[Web Frontend]
     end
 ```
-
-## Deployment
-To deploy, simply run `vagrant up`. The VMs will provision unattended, and the API will load in data once it has compiled (both tasks occur in the background). Compilation information is available for the frontend by simply viewing the output of the provisioning command, but in order to view the compilation status of the API, you need to SSH in (e.g. through `vagrant ssh api`) and then view the Systemd logs for the service (`sudo journalctl -f -u discount-detective.service`).
-
-Once the provisioning has completed, the frontend will be available at http://localhost:8081. The API is at http://localhost:8080, with ElasticSearch and MySQL being at localhost:9200 and localhost:3306 respectively.
-
-## Local Development
-To develop locally, the easiest way is to create VMs for the DB and ElasticSearch instances. You can do this by running `vagrant up db` and `vagrant up search` (assuming all other VMs have been halted). You will need to uncomment the port forwarding lines in the Vagrant file in order to do this (and then reload each VM).
-
-You can then run the API and the frontend, and access them at the same addresses. If you wish to run the API and frontend concurrently locally, then make sure the API was started first, so it can claim port 8080, otherwise the frontend will try and get it. You can also run either of the components in their respective VM images if you only need to work on one component (e.g. `vagrant up api` for the API or `vagrant up web` for the frontend).
-
-The VMs will automatically pull from the api/web folders of your current directory when deploying. To update their contents, you can simply run `vagrant reload` after you have made changes.
