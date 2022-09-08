@@ -1,11 +1,14 @@
-# Navigate to the app folder
-cd /var/app
+# Delete old web files
+rm -r /var/app/web
 
-# Pull latest changes
-git pull origin master
+# Copy the new web files to the appropriate place.
+cp -r /vagrant/web /var/app/
+
+# Convert Windows to Unix line endings.
+find /var/app -type f -exec dos2unix {} \;
 
 # Navigate to web directory
-cd web
+cd /var/app/web
 
 # Compile kotlin and build
 ./gradlew jsBrowserDevelopmentExecutableDistribution

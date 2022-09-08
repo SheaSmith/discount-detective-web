@@ -1,5 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+# Based on https://altitude.otago.ac.nz/cosc349/vagrant-multivm/-/blob/master/Vagrantfile
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -105,6 +106,7 @@ Vagrant.configure("2") do |config|
     api.vm.provider "virtualbox" do |apivm|
       apivm.memory = 2048
     end
+    api.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
   end
 
   config.vm.define "web" do |web|
@@ -116,6 +118,7 @@ Vagrant.configure("2") do |config|
     web.vm.provider "virtualbox" do |webvm|
       webvm.memory = 4096
     end
+    web.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
   end
 
 end

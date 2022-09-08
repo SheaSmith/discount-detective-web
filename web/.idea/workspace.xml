@@ -9,8 +9,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="Initial multiplatform conversion from the main Discount Detective project">
-      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" afterDir="false" />
+    <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="Faster CORS proxy performance">
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Vagrantfile" beforeDir="false" afterPath="$PROJECT_DIR$/../Vagrantfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../create-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../create-api-vm.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../create-web-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../create-web-vm.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../update-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update-api-vm.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../update-web-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update-web-vm.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662356004087</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Faster CORS proxy performance">
+      <created>1662633693978</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1662633693978</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -252,6 +265,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial multiplatform conversion from the main Discount Detective project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial multiplatform conversion from the main Discount Detective project" />
+    <MESSAGE value="Faster CORS proxy performance" />
+    <option name="LAST_COMMIT_MESSAGE" value="Faster CORS proxy performance" />
   </component>
 </project>

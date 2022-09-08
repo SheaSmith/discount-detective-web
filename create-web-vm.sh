@@ -1,7 +1,6 @@
 # Update the APT sources and install Git and Java
 apt-get update
-apt-get install -y git openjdk-11-jdk apache2
+apt-get install -y openjdk-11-jdk apache2 dos2unix
 
-# Create the app repository and clone the repository.
+# Create the appropriate app folder
 mkdir /var/app
-git clone https://github.com/SheaSmith/discount-detective-web.git /var/app
