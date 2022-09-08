@@ -7,45 +7,79 @@ import nz.shea.discountdetective.api.services.ProductService
 import nz.shea.discountdetective.api.services.RetailerService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.RequestEntity
+import org.springframework.web.bind.annotation.*
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.io.PushbackInputStream
+import java.net.URL
+import java.net.URLConnection
+import javax.imageio.ImageIO
+
 
 @SpringBootApplication
 class ApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<ApiApplication>(*args)
+    runApplication<ApiApplication>(*args)
 }
 
 @RestController
 @RequestMapping("/products")
 @CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
 class ProductResource(val service: ProductService, val component: ScraperTask) {
-	@RequestMapping("/search")
-	fun search(query: String, offset: Int = 0): PageDTO<Map<String, Product>> {
-		return service.searchProducts(query, offset)
-	}
+    @RequestMapping("/search")
+    fun search(query: String, offset: Int = 0): PageDTO<Map<String, Product>> {
+        return service.searchProducts(query, offset)
+    }
 
-	@RequestMapping("/{id}")
-	fun getProduct(@PathVariable("id") id: String): Product? {
-		return service.findById(id)
-	}
+    @RequestMapping("/{id}")
+    fun getProduct(@PathVariable("id") id: String): Product? {
+        return service.findById(id)
+    }
 
-	@RequestMapping("/run-scraper")
-	fun runScraper() {
-		component.runScrapers()
-	}
+    @RequestMapping("/run-scraper")
+    fun runScraper() {
+        component.runScrapers()
+    }
 }
 
 @RestController
 @RequestMapping("/retailers")
 @CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
 class RetailerResource(val service: RetailerService) {
-	@RequestMapping("/")
-	@GetMapping
-	fun index(): Map<String, Retailer> = service.findRetailers()
+    @RequestMapping("/")
+    @GetMapping
+    fun index(): Map<String, Retailer> = service.findRetailers()
+}
+
+@RestController
+@RequestMapping("/image-proxy")
+@CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
+class ImageProxyResource() {
+    @RequestMapping("")
+    fun proxyImage(@RequestParam imageUrl: String, requestEntity: RequestEntity<Any>): HttpEntity<ByteArray> {
+		val url = URL(imageUrl)
+        val pushbackLimit = 100
+        val urlStream: InputStream = url.openStream()
+        val pushUrlStream = PushbackInputStream(urlStream, pushbackLimit)
+        val firstBytes = ByteArray(pushbackLimit)
+        pushUrlStream.read(firstBytes)
+        pushUrlStream.unread(firstBytes)
+
+        var imageType: String? = null
+        val bais = ByteArrayInputStream(firstBytes)
+        val mimeType: String = URLConnection.guessContentTypeFromStream(bais)
+
+		val bytes = pushUrlStream.readAllBytes()
+
+        val headers = HttpHeaders()
+        headers.contentLength = bytes.size.toLong()
+        headers.contentType = MediaType.parseMediaType(mimeType)
+
+		return HttpEntity<ByteArray>(bytes, headers)
+    }
 }
