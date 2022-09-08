@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="Initial multiplatform conversion from the main Discount Detective project">
-      <change beforePath="$PROJECT_DIR$/../api/src/main/kotlin/nz/shea/discountdetective/api/ApiApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../api/src/main/kotlin/nz/shea/discountdetective/api/ApiApplication.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/components/AsyncImage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -28,7 +28,7 @@ fun AsyncImage(
     if (url != null) {
         LaunchedEffect("Image") {
             val client = HttpClient(getClient())
-            val httpResponse: HttpResponse = client.get("https://enable-cors.glitch.me/$url")
+            val httpResponse: HttpResponse = client.get("http://localhost:8080/image-proxy?imageUrl=$url")
             client.close()
             val encodedImageData: ByteArray = httpResponse.body()
             val loadedImageBitmap: ImageBitmap = imageBitmapFromBytes(encodedImageData)
