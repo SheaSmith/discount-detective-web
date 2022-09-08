@@ -17,7 +17,6 @@ import java.io.InputStream
 import java.io.PushbackInputStream
 import java.net.URL
 import java.net.URLConnection
-import javax.imageio.ImageIO
 
 
 @SpringBootApplication
@@ -59,10 +58,10 @@ class RetailerResource(val service: RetailerService) {
 @RestController
 @RequestMapping("/image-proxy")
 @CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
-class ImageProxyResource() {
+class ImageProxyResource {
     @RequestMapping("")
     fun proxyImage(@RequestParam imageUrl: String, requestEntity: RequestEntity<Any>): HttpEntity<ByteArray> {
-		val url = URL(imageUrl)
+        val url = URL(imageUrl)
         val pushbackLimit = 100
         val urlStream: InputStream = url.openStream()
         val pushUrlStream = PushbackInputStream(urlStream, pushbackLimit)
@@ -70,16 +69,15 @@ class ImageProxyResource() {
         pushUrlStream.read(firstBytes)
         pushUrlStream.unread(firstBytes)
 
-        var imageType: String? = null
         val bais = ByteArrayInputStream(firstBytes)
         val mimeType: String = URLConnection.guessContentTypeFromStream(bais)
 
-		val bytes = pushUrlStream.readAllBytes()
+        val bytes = pushUrlStream.readAllBytes()
 
         val headers = HttpHeaders()
         headers.contentLength = bytes.size.toLong()
         headers.contentType = MediaType.parseMediaType(mimeType)
 
-		return HttpEntity<ByteArray>(bytes, headers)
+        return HttpEntity<ByteArray>(bytes, headers)
     }
 }
