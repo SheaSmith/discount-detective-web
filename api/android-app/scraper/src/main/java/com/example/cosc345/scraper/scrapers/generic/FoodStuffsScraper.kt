@@ -170,7 +170,7 @@ abstract class FoodStuffsScraper(
                 ).promotions.forEach { foodStuffsPromotion ->
 
                     val price =
-                        products.first { it.id == foodStuffsPromotion.productId }.pricing!!.first { it.store == discountMap.key }
+                        products.first { it.id == foodStuffsPromotion.productId || it.id == foodStuffsPromotion.loyaltyPromotion?.productId }.pricing!!.first { it.store == discountMap.key }
 
                     parsePromotion(foodStuffsPromotion, price, false)
                 }

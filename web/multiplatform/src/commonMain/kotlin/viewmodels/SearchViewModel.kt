@@ -31,6 +31,10 @@ class SearchViewModel : ViewModel() {
         viewModelScope.launch {
             retailers.value = retailerRepository.getRetailers()
         }
+
+        viewModelScope.launch {
+            query()
+        }
     }
 
     fun query() {

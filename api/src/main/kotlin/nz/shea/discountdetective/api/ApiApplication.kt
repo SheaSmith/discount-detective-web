@@ -7,6 +7,7 @@ import nz.shea.discountdetective.api.services.ProductService
 import nz.shea.discountdetective.api.services.RetailerService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,6 +23,7 @@ fun main(args: Array<String>) {
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
 class ProductResource(val service: ProductService, val component: ScraperTask) {
 	@RequestMapping("/search")
 	fun search(query: String, offset: Int = 0): PageDTO<Map<String, Product>> {
@@ -41,6 +43,7 @@ class ProductResource(val service: ProductService, val component: ScraperTask) {
 
 @RestController
 @RequestMapping("/retailers")
+@CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
 class RetailerResource(val service: RetailerService) {
 	@RequestMapping("/")
 	@GetMapping

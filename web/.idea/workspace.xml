@@ -10,7 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../api/android-app/scraper/src/main/java/com/example/cosc345/scraper/models/foodstuffs/promotions/FoodStuffsPromotion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../api/android-app/scraper/src/main/java/com/example/cosc345/scraper/models/foodstuffs/promotions/FoodStuffsPromotion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/android-app/scraper/src/main/java/com/example/cosc345/scraper/scrapers/generic/FoodStuffsScraper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../api/android-app/scraper/src/main/java/com/example/cosc345/scraper/scrapers/generic/FoodStuffsScraper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/src/main/kotlin/nz/shea/discountdetective/api/ApiApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../api/src/main/kotlin/nz/shea/discountdetective/api/ApiApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api/src/main/kotlin/nz/shea/discountdetective/api/services/ProductService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../api/src/main/kotlin/nz/shea/discountdetective/api/services/ProductService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/multiplatform/src/commonMain/kotlin/viewmodels/SearchViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,9 +94,9 @@
       <recent name="$PROJECT_DIR$/.." />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.web [jsBrowserDevelopmentExecutableDistribution]">
+  <component name="RunManager" selected="Gradle.web [jsBrowserRun]">
     <configuration name="multiplatform" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="DiscountDetective.multiplatform" />
+      <module name="DiscountDetective.multiplatform.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -99,6 +104,7 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -138,6 +144,7 @@
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
         <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+        <option name="PROFILING_MODE" value="NOT_SET" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -212,9 +219,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.web [jsBrowserRun]" />
         <item itemvalue="Gradle.web [jsBrowserDevelopmentExecutableDistribution]" />
         <item itemvalue="Gradle.web [jsBrowserDistribution]" />
-        <item itemvalue="Gradle.web [jsBrowserRun]" />
       </list>
     </recent_temporary>
   </component>
@@ -247,7 +254,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial multiplatform conversion from the main Discount Detective project" />
