@@ -75,7 +75,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "db" do |db|
     db.vm.hostname = "db"
-    db.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
+    # Uncomment for local development
+    # db.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
     db.vm.network "private_network", ip: "192.168.100.11"
 
     # This following line is only necessary in the CS Labs... but that
@@ -87,7 +88,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "search" do |search|
     search.vm.hostname = "search"
-    search.vm.network "forwarded_port", guest: 9200, host: 9200, host_ip: "127.0.0.1"
+    # Uncomment for local development
+    # search.vm.network "forwarded_port", guest: 9200, host: 9200, host_ip: "127.0.0.1"
     search.vm.network "private_network", ip: "192.168.100.12"
   
     # This following line is only necessary in the CS Labs... but that
@@ -112,7 +114,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "web" do |web|
     web.vm.hostname = "web"
     web.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
-    web.vm.network "private_network", ip: "192.168.100.14"
     web.vm.provision "shell", path: "create-web-vm.sh"
     web.vm.provision "shell", path: "update-web-vm.sh", run: "always"
     web.vm.provider "virtualbox" do |webvm|

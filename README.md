@@ -28,9 +28,18 @@ Finally, there is a VM for the frontend. This creates a web server (Apache2), al
 The following is a rough diagram of how the different VMs interact:
 ```mermaid
 graph TD
-    A[MySQL] --> C[Rest API]
-    B[ElasticSearch] --> C
-    C --> D[Web Frontend]
+    subgraph Private Network
+        A[MySQL] --> C[Rest API]
+        B[ElasticSearch] --> C
+
+        subgraph Accessible To Host
+            C
+        end
+    end
+
+    subgraph Accessible To Host
+        C --> D[Web Frontend]
+    end
 ```
 
 ## Deployment
@@ -39,7 +48,7 @@ To deploy, simply run `vagrant up`. The VMs will provision unattended, and the A
 Once the provisioning has completed, the frontend will be available at http://localhost:8081. The API is at http://localhost:8080, with ElasticSearch and MySQL being at localhost:9200 and localhost:3306 respectively.
 
 ## Local Development
-To develop locally, the easiest way is to create VMs for the DB and ElasticSearch instances. You can do this by running `vagrant up db` and `vagrant up search` (assuming all other VMs have been halted).
+To develop locally, the easiest way is to create VMs for the DB and ElasticSearch instances. You can do this by running `vagrant up db` and `vagrant up search` (assuming all other VMs have been halted). You will need to uncomment the port forwarding lines in the Vagrant file in order to do this (and then reload each VM).
 
 You can then run the API and the frontend, and access them at the same addresses. If you wish to run the API and frontend concurrently locally, then make sure the API was started first, so it can claim port 8080, otherwise the frontend will try and get it. You can also run either of the components in their respective VM images if you only need to work on one component (e.g. `vagrant up api` for the API or `vagrant up web` for the frontend).
 

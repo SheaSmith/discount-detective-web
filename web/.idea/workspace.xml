@@ -12,11 +12,6 @@
     <list default="true" id="3c812e9e-fe30-4663-bc3a-87515585e745" name="Changes" comment="Faster CORS proxy performance">
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Vagrantfile" beforeDir="false" afterPath="$PROJECT_DIR$/../Vagrantfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../create-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../create-api-vm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../create-web-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../create-web-vm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update-api-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update-api-vm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update-web-vm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update-web-vm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
