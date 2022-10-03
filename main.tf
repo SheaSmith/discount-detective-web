@@ -165,7 +165,7 @@ resource "aws_instance" "api" {
   ami           = "ami-0bfa1783225ce047b"
   instance_type = "m6gd.large"
   subnet_id     = aws_subnet.public.id
-  user_data     = data.template_file.api_provision.rendered
+  user_data     = templatefile("${path.module}/aws-api-provision.tpl", { db_endpoint = aws_db_instance.db.endpoint })
 
   security_groups = [
     aws_security_group.api.id
@@ -177,14 +177,6 @@ resource "aws_instance" "api" {
 
   tags = {
     Name = "DD API Server"
-  }
-}
-
-# Create provisioning script for the API.
-data "template_file" "api_provision" {
-  template = file("./aws-api-provision.tpl")
-  vars = {
-    db_endpoint = aws_db_instance.db.endpoint
   }
 }
 
@@ -206,6 +198,7 @@ resource "aws_eip" "api_eip" {
 # Database
 ##################################################################################
 
+# Create the RDS database instance.
 resource "aws_db_instance" "db" {
   allocated_storage      = 10
   db_name                = "DiscountDetective"
@@ -223,6 +216,7 @@ resource "aws_db_instance" "db" {
   }
 }
 
+# Create the subnet group for the database.
 resource "aws_db_subnet_group" "db" {
   subnet_ids = [aws_subnet.db-1.id, aws_subnet.db-2.id]
 
@@ -230,6 +224,12 @@ resource "aws_db_subnet_group" "db" {
     Name = "DD DB Subnet Group"
   }
 }
+
+##################################################################################
+# Elastic Search
+##################################################################################
+
+
 
 ##################################################################################
 # Outputs

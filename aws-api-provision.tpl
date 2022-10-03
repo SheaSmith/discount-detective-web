@@ -22,7 +22,9 @@ chmod +x /var/app/api/gradlew
 # Create the config directory, and move the properties for the deployed app there.
 mkdir /var/app/api/config
 cp /var/app/api/application-aws.properties /var/app/api/config/application.properties
-sed  -e "s/\${db_endpoint}/${db_endpoint}/" /var/app/api/config/application.properties
+
+# Insert temporal values into the config
+sed -i -e "s/\{db_endpoint}/${db_endpoint}/" /var/app/api/config/application.properties
 
 # Enable service
 systemctl enable discount-detective
