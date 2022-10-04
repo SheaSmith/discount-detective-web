@@ -35,9 +35,10 @@ resource "aws_vpc" "vpc" {
 
 # Create a subnet for the VMs/db/search.
 resource "aws_subnet" "public" {
-  vpc_id            = aws_vpc.vpc.id
-  availability_zone = "us-east-1a"
-  cidr_block        = "10.0.3.0/24"
+  vpc_id                  = aws_vpc.vpc.id
+  availability_zone       = "us-east-1a"
+  cidr_block              = "10.0.3.0/24"
+  map_public_ip_on_launch = true
 
   depends_on = [
     aws_internet_gateway.igw
@@ -113,30 +114,16 @@ resource "aws_route_table_association" "public_association" {
   route_table_id = aws_route_table.route_table.id
 }
 
-# Create the route table association for the public subnet.
+# Create the route table association for the private subnet.
 resource "aws_route_table_association" "private_association" {
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.route_table.id
 }
 
-# Create the route table association for the public subnet.
+# Create the route table association for the private subnet.
 resource "aws_route_table_association" "private_association_2" {
   subnet_id      = aws_subnet.private_2.id
   route_table_id = aws_route_table.route_table.id
-}
-
-# An EIP for the private subnets.
-resource "aws_eip" "nat_gateway" {
-  vpc = true
-}
-
-# A NAT gateway for the private subnet.
-resource "aws_nat_gateway" "nat_gateway" {
-  allocation_id = aws_eip.nat_gateway.id
-  subnet_id = aws_subnet.private.id
-  tags = {
-    "Name" = "DD NAT Gateway"
-  }
 }
 
 ##################################################################################
@@ -342,7 +329,7 @@ resource "aws_instance" "search" {
   instance_type          = "m6gd.large"
   user_data              = file("${path.module}/create-search-vm.sh")
   vpc_security_group_ids = [aws_security_group.search.id]
-  subnet_id              = aws_subnet.private.id
+  subnet_id              = aws_subnet.public.id
 
   tags = {
     Name = "DD ElasticSearch"
