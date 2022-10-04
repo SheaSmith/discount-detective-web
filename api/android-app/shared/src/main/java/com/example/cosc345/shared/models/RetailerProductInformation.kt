@@ -3,7 +3,6 @@ package com.example.cosc345.shared.models
 /**
  * The information about a product, specific to a particular retailer.
  *
- * @author Shea Smith
  * @constructor Create a new instance of this object. Some of the nullable parameters are not nullable in practice, but are required to be for Firebase.
  */
 data class RetailerProductInformation(
@@ -62,8 +61,6 @@ data class RetailerProductInformation(
 
     /**
      * An URL of the image for this product, hosted on the retailer's server.
-     *
-     * Required in practice, however Firebase requires nullable values.
      */
     var image: String? = null,
 
@@ -82,6 +79,9 @@ data class RetailerProductInformation(
      */
     var verified: Boolean? = null
 ) {
+    /**
+     * Get a score for each retailer, for sorting purposes.
+     */
     fun getRetailerScore(): Int {
         return when (retailer) {
             "countdown" -> 0

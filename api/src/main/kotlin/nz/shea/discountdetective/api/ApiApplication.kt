@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
+@CrossOrigin
 class ProductResource(val service: ProductService, val component: ScraperTask) {
     @RequestMapping("/search")
     fun search(query: String, offset: Int = 0): PageDTO<Map<String, Product>> {
@@ -48,7 +48,7 @@ class ProductResource(val service: ProductService, val component: ScraperTask) {
 
 @RestController
 @RequestMapping("/retailers")
-@CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
+@CrossOrigin
 class RetailerResource(val service: RetailerService) {
     @RequestMapping("/")
     @GetMapping
@@ -57,7 +57,7 @@ class RetailerResource(val service: RetailerService) {
 
 @RestController
 @RequestMapping("/image-proxy")
-@CrossOrigin(origins = ["http://localhost:8081", "http://localhost:8080"])
+@CrossOrigin
 class ImageProxyResource {
     @RequestMapping("")
     fun proxyImage(@RequestParam imageUrl: String, requestEntity: RequestEntity<Any>): HttpEntity<ByteArray> {
