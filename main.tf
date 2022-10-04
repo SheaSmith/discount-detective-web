@@ -19,6 +19,11 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# GitHub PAT for Amplify
+variable "github_pat" {
+  type = string
+}
+
 ##################################################################################
 # Specifying IP address ranges.
 ##################################################################################
@@ -142,7 +147,7 @@ resource "aws_security_group" "api" {
   }
 
   ingress {
-    description = "MYSQL"
+    description = "Allow MYSQL"
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
@@ -150,7 +155,7 @@ resource "aws_security_group" "api" {
   }
 
   ingress {
-    description = "ElasticSearch"
+    description = "Allow ElasticSearch"
     from_port   = 9200
     to_port     = 9200
     protocol    = "tcp"
@@ -158,15 +163,29 @@ resource "aws_security_group" "api" {
   }
 
   egress {
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Allow API traffic"
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "tcp"
+    prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
+  }
+
   tags = {
     Name = "DD API Security Group"
   }
+}
+
+# Prefixes for allowing Cloudfront to access the API.
+data "aws_ec2_managed_prefix_list" "cloudfront" {
+  name  = "com.amazonaws.global.cloudfront.origin-facing"
 }
 
 # Create the security group for allowing DB access.
@@ -286,6 +305,56 @@ resource "aws_eip" "api_eip" {
   }
 }
 
+# CDN for the API, so we don't have to deal with SSL on domain names and stuff
+resource "aws_cloudfront_distribution" "api" {
+  enabled = true
+
+  origin {
+    domain_name = aws_eip.api_eip.public_dns
+    origin_id   = aws_eip.api_eip.public_dns
+
+    custom_origin_config {
+      http_port = 8080
+      # Force HTTP only as there is no HTTPS setup on the EC2 instance
+      origin_protocol_policy = "http-only"
+
+      # HTTPS config that is required, but not used since we force HTTP only
+      https_port           = 8080
+      origin_ssl_protocols = ["TLSv1.2"]
+    }
+  }
+
+  default_cache_behavior {
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods         = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id       = aws_eip.api_eip.public_dns
+    viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      headers      = []
+      query_string = true
+
+      cookies {
+        forward = "all"
+      }
+    }
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+
+  tags = {
+    Name = "API CDN"
+  }
+}
+
 ##################################################################################
 # Database
 ##################################################################################
@@ -295,7 +364,7 @@ resource "aws_db_instance" "db" {
   allocated_storage      = 10
   db_name                = "DiscountDetective"
   engine                 = "mysql"
-  engine_version         = "5.7"
+  engine_version         = "8.0"
   instance_class         = "db.t3.micro"
   username               = "discountdetective"
   password               = "DbUserChangeThis"
@@ -333,6 +402,41 @@ resource "aws_instance" "search" {
 
   tags = {
     Name = "DD ElasticSearch"
+  }
+}
+
+##################################################################################
+# Frontend
+##################################################################################
+
+# Create the Amplify app for the frontend.
+resource "aws_amplify_app" "frontend" {
+  name                        = "DD Frontend"
+  repository                  = "https://github.com/SheaSmith/discount-detective-web"
+  access_token                = var.github_pat
+  enable_auto_branch_creation = true
+  enable_branch_auto_build    = true
+
+  build_spec = templatefile("${path.module}/amplify-build-spec.tftpl", {
+    api_endpoint = aws_cloudfront_distribution.api.domain_name
+  })
+
+  # The default rewrites and redirects added by the Amplify Console.
+  custom_rule {
+    source = "/<*>"
+    status = "404"
+    target = "/index.html"
+  }
+
+  # The default patterns added by the Amplify Console.
+  auto_branch_creation_patterns = [
+    "*",
+    "*/**",
+  ]
+
+  auto_branch_creation_config {
+    # Enable auto build for the created branch.
+    enable_auto_build = true
   }
 }
 

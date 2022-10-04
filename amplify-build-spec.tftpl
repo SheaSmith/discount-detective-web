@@ -1,0 +1,18 @@
+version: 0.1
+frontend:
+    phases:
+        preBuild:
+            commands:
+                - yum install -y java-11-amazon-corretto
+                - cd web
+        build:
+            commands:
+                - sed -i -e "s|http://localhost:8080|https://${api_endpoint}|" multiplatform/src/commonMain/kotlin/components/AsyncImage.kt
+                - sed -i -e "s|http://localhost:8080|https://${api_endpoint}|" multiplatform/src/commonMain/kotlin/repository/RepositoryBase.kt
+                - ./gradlew jsBrowserDevelopmentExecutableDistribution
+                # Fix for bug https://github.com/JetBrains/compose-jb/issues/2273 as skiio files are not generated on first build
+                - ./gradlew jsBrowserDevelopmentExecutableDistribution
+    artifacts:
+        baseDirectory: web/multiplatform/build/developmentExecutable/
+        files:
+            - '**/*'
