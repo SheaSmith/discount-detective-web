@@ -292,7 +292,7 @@ resource "aws_instance" "api" {
 }
 
 # Create the EIP for the API, so it has a public (as well as fixed private) IP address.
-resource "aws_eip" "api_eip" {
+resource "aws_eip" "api" {
   vpc      = true
   instance = aws_instance.api.id
 
@@ -310,8 +310,8 @@ resource "aws_cloudfront_distribution" "api" {
   enabled = true
 
   origin {
-    domain_name = aws_eip.api_eip.public_dns
-    origin_id   = aws_eip.api_eip.public_dns
+    domain_name = aws_eip.api.public_dns
+    origin_id   = aws_eip.api.public_dns
 
     custom_origin_config {
       http_port = 8080
@@ -327,7 +327,7 @@ resource "aws_cloudfront_distribution" "api" {
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id       = aws_eip.api_eip.public_dns
+    target_origin_id       = aws_eip.api.public_dns
     viewer_protocol_policy = "redirect-to-https"
 
     forwarded_values {
