@@ -5,7 +5,16 @@ This project is intended to be a multiplatform fork of the [original Android app
 
 Currently, the app has a subset of the feature set of the original app, but it is intended that this will reach parity as Jetbrains Compose matures, and this app might eventually replace the original.
 
-## Deployment
+## Cloud Deployment
+This app is deployed to Amazon AWS via Terraform. Running `terraform apply` (after `terraform init` if necessary), with create all of the necessary resources in AWS (assuming valid credentials), will pull code from this Git repository, and deploy it where necessary. When running `terraform` manually, you will need to input a Git PAT in order to setup the deployment process of the frontend.
+
+You may need to setup the Git intergration with AWS Amplify before you can properly deploy the frontend apps. Additionally, you may need to manually run the first build in Amplify.
+
+Currently, there is no feedback around the provisioning process, so the Terraform script alone will not let you know once the API is accessible. However, a good rule of thumb is that once the frontend deployment in Amplify has finished, the app should be ready to go.
+
+You can view the app by visiting the Amplify URL that is posted when Terraform has finished.
+
+## Local Deployment
 To deploy, simply run `vagrant up`. The VMs will provision unattended, and the API will load in data once it has compiled (both tasks occur in the background). Compilation information is available for the frontend by simply viewing the output of the provisioning command, but in order to view the compilation status of the API, you need to SSH in (e.g. through `vagrant ssh api`) and then view the Systemd logs for the service (`sudo journalctl -f -u discount-detective.service`).
 
 Once the provisioning has completed, the frontend will be available at http://localhost:8081. The API is at http://localhost:8080, with ElasticSearch and MySQL being at localhost:9200 and localhost:3306 respectively.
@@ -26,7 +35,45 @@ browser.
 
 Secondly, there is the frontend. This is a Kotlin Multiplatform project that uses Jetbrains Compose for the UI layer. The UI is a fork of the original Android UI, and so the code is not identical, however, most of it (>90% probably) is the same across both of the projects. Currently, the intended target is web browsers, via the experimental WASM support of Kotlin Multiplatform and Jetbrains Compose. As the UI layer relies on experimental technologies, it may be a bit buggy. **Additionally, the app will only run in modern web browsers due to the requirement of modern Web Assembly technologies!**
 
-## Deployment Structure
+## Cloud Deployment Structure
+This app uses a variety of AWS services for deployment. The main components are the database (a MySQL Amazon RDS database), the API (an EC2 instance running Ubuntu 20.04), the ElasticSearch instance (also an EC2 running Ubuntu 20.04, as Amazon's OpenSearch appears to be unavailable in AWS Academy) and the frontend (an Amplify app).
+
+The database is reasonably simple. It is a MySQL 8.0 database, assigned to two different private subnets. These subnets are in two different availability zones, meaning the database could be accessible even if one part of us-east-1 goes down (although the other parts of the app remain only in a single availability zone, negating this), and the instance is only available to the API EC2 instance via a security rule.
+
+The API has several components. Firstly, there is the basic EC2 instance, which is Ubuntu 20.04. It is provisoned via a script that installs the necessary API dependencies, along with cloning the repository from Git and running it. It belongs to the public subnet, so it is publically accessible, but it has also been assigned its own Elastic IP for public access. Finally, the entire API is behind a Cloudfront instance. This has the dual purpose of improving the API performance by caching some requests, but also serves to provide HTTPS support for the API, without needing to get a domain (as the frontend is hosted over HTTPS, so HTTPS needs to also apply on the API to prevent mixed content warnings). The API on EC2 is only accessible to Cloudfront via another security rule. The EC2 instance runs on m6gd.large, as it has a good number of cores and RAM, despite being relatively cheap, comes with built-in storage, and is one of the higher performance tiers available through AWS Academy.
+
+The ElasticSearch instance is much simpler. It is a basic EC2 instance that is provisioned to have an ElasticSearch instance installed. It is also on the public subnet, so that it can be remotely accessed through SSH, however a security rule prevents the ElasticSearch server itself being accessed by anything other than the API EC2 instance.
+
+Finally, the frontend is an Amplify app. This allows it to automatically pull the repository from Github, build it, and deploy it as a static web app with HTTPS. This simplifies the process for deploying a static web app, as it means some sort of build server doesn't need to be spun up. This has a buildspec file which downloads the necessary build dependencies (Java), builds the web app, and then deploys it to the static website.
+
+The following is a diagram of how all the different components interact.
+```mermaid
+graph TD
+    subgraph Publically Accessible
+        CloudFront
+        Frontend
+    end
+
+    subgraph Semi-Publically Accessible - Credentials Needed
+        ApiSSH[API SSH]
+        ElasticSearchSSH[ElasticSearch SSH]
+    end
+
+    subgraph VPC
+        subgraph Public Subnet
+            API[REST API] -->|Security Group| CloudFront
+            ElasticSearch -->|Security Group| API
+            ElasticSearch -->|Security Group| ElasticSearchSSH
+            API -->|Security Group| ApiSSH
+        end
+
+        subgraph Private Subnets 1 & 2
+            RDS[RDS - MySQL] -->|Security Group| API
+        end
+    end
+```
+
+## Local Deployment Structure
 The app uses Vagrant and four VMs for deployment, all of which are Ubuntu 20.04 based.
 
 The first is a VM for the MySQL instance, which on deployment, will install and run a MySQL server, and initialise the database (but it will not create tables, as that is the function of the API's data layer). If you are deploying this somewhere, please ensure you change the default passwords, as they are currently hardcoded to insecure values (make sure you do a find and replace, as the API uses one of these passwords in its configuration files). This is used for the main data storage of the app.

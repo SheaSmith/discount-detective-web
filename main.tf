@@ -171,7 +171,7 @@ resource "aws_security_group" "api" {
   }
 
   ingress {
-    description = "Allow API traffic"
+    description     = "Allow API traffic"
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
@@ -185,7 +185,7 @@ resource "aws_security_group" "api" {
 
 # Prefixes for allowing Cloudfront to access the API.
 data "aws_ec2_managed_prefix_list" "cloudfront" {
-  name  = "com.amazonaws.global.cloudfront.origin-facing"
+  name = "com.amazonaws.global.cloudfront.origin-facing"
 }
 
 # Create the security group for allowing DB access.
@@ -351,7 +351,7 @@ resource "aws_cloudfront_distribution" "api" {
   }
 
   tags = {
-    Name = "API CDN"
+    Name = "DD API CDN"
   }
 }
 
@@ -411,11 +411,9 @@ resource "aws_instance" "search" {
 
 # Create the Amplify app for the frontend.
 resource "aws_amplify_app" "frontend" {
-  name                        = "DD Frontend"
-  repository                  = "https://github.com/SheaSmith/discount-detective-web"
-  access_token                = var.github_pat
-  enable_auto_branch_creation = true
-  enable_branch_auto_build    = true
+  name         = "DD Frontend"
+  repository   = "https://github.com/SheaSmith/discount-detective-web"
+  access_token = var.github_pat
 
   build_spec = templatefile("${path.module}/amplify-build-spec.tftpl", {
     api_endpoint = aws_cloudfront_distribution.api.domain_name
@@ -427,23 +425,21 @@ resource "aws_amplify_app" "frontend" {
     status = "404"
     target = "/index.html"
   }
+}
 
-  # The default patterns added by the Amplify Console.
-  auto_branch_creation_patterns = [
-    "*",
-    "*/**",
-  ]
-
-  auto_branch_creation_config {
-    # Enable auto build for the created branch.
-    enable_auto_build = true
-  }
+# Setup master branch to auto build
+resource "aws_amplify_branch" "master" {
+  app_id                  = aws_amplify_app.frontend.id
+  branch_name             = "master"
+  stage                   = "PRODUCTION"
+  enable_auto_build       = true
+  enable_performance_mode = true
 }
 
 ##################################################################################
 # Outputs
 ##################################################################################
 
-output "instance_public_ip" {
-  value = aws_eip.api_eip.public_ip
+output "frontend_url" {
+  value = format("%s%s", "https://master.", aws_amplify_app.frontend.default_domain)
 }
