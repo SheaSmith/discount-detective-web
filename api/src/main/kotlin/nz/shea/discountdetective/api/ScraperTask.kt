@@ -22,7 +22,6 @@ class ScraperTask(
 
     @Transactional
     @Scheduled(cron = "0 2 * * *")
-    @EventListener(ApplicationReadyEvent::class)
     fun runScrapers() {
         val matcher = Matcher()
 
