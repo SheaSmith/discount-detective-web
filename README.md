@@ -54,17 +54,17 @@ graph TD
         Frontend
     end
 
-    subgraph Semi-Publically Accessible - Credentials Needed
-        ApiSSH[API SSH]
-        ElasticSearchSSH[ElasticSearch SSH]
-    end
-
     subgraph VPC
         subgraph Public Subnet
             API[REST API] -->|Security Group| CloudFront
             ElasticSearch -->|Security Group| API
             ElasticSearch -->|Security Group| ElasticSearchSSH
             API -->|Security Group| ApiSSH
+
+            subgraph Semi-Publically Accessible - Credentials Needed
+                ApiSSH[API SSH]
+                ElasticSearchSSH[ElasticSearch SSH]
+            end
         end
 
         subgraph Private Subnets 1 & 2

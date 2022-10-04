@@ -433,7 +433,6 @@ resource "aws_amplify_branch" "master" {
   branch_name             = "master"
   stage                   = "PRODUCTION"
   enable_auto_build       = true
-  enable_performance_mode = true
 }
 
 ##################################################################################
