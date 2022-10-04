@@ -37,7 +37,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.vpc.id
   availability_zone = "us-east-1a"
-  cidr_block = "10.0.3.0/24"
+  cidr_block        = "10.0.3.0/24"
 
   depends_on = [
     aws_internet_gateway.igw
@@ -48,20 +48,36 @@ resource "aws_subnet" "public" {
   }
 }
 
-# First DB subnet, to ensure better availability
-resource "aws_subnet" "db-1" {
+# Search & db subnet
+resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.vpc.id
   map_public_ip_on_launch = false
   availability_zone       = "us-east-1a"
-  cidr_block = "10.0.1.0/24"
+  cidr_block              = "10.0.4.0/24"
+
+  depends_on = [
+    aws_internet_gateway.igw
+  ]
+
+  tags = {
+    Name = "DD Private Subnet"
+  }
 }
 
-# Second DB subnet, to ensure better availability
-resource "aws_subnet" "db-2" {
+# DB second subnet
+resource "aws_subnet" "private_2" {
   vpc_id                  = aws_vpc.vpc.id
   map_public_ip_on_launch = false
   availability_zone       = "us-east-1b"
-  cidr_block = "10.0.2.0/24"
+  cidr_block              = "10.0.2.0/24"
+
+  depends_on = [
+    aws_internet_gateway.igw
+  ]
+
+  tags = {
+    Name = "DD Private 2 Subnet"
+  }
 }
 
 ##################################################################################
@@ -91,10 +107,36 @@ resource "aws_route_table" "route_table" {
   }
 }
 
-# Create the route table association.
-resource "aws_route_table_association" "table_association" {
+# Create the route table association for the public subnet.
+resource "aws_route_table_association" "public_association" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.route_table.id
+}
+
+# Create the route table association for the public subnet.
+resource "aws_route_table_association" "private_association" {
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.route_table.id
+}
+
+# Create the route table association for the public subnet.
+resource "aws_route_table_association" "private_association_2" {
+  subnet_id      = aws_subnet.private_2.id
+  route_table_id = aws_route_table.route_table.id
+}
+
+# An EIP for the private subnets.
+resource "aws_eip" "nat_gateway" {
+  vpc = true
+}
+
+# A NAT gateway for the private subnet.
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.nat_gateway.id
+  subnet_id = aws_subnet.private.id
+  tags = {
+    "Name" = "DD NAT Gateway"
+  }
 }
 
 ##################################################################################
@@ -116,6 +158,14 @@ resource "aws_security_group" "api" {
     description = "MYSQL"
     from_port   = 3306
     to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "ElasticSearch"
+    from_port   = 9200
+    to_port     = 9200
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -156,16 +206,71 @@ resource "aws_security_group" "db" {
   }
 }
 
+# Create the security group for allowing search access.
+resource "aws_security_group" "search" {
+  vpc_id = aws_vpc.vpc.id
+
+  ingress {
+    from_port       = 9200
+    to_port         = 9200
+    protocol        = "tcp"
+    cidr_blocks     = ["0.0.0.0/0"]
+    security_groups = ["${aws_security_group.api.id}"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "DD Allow Search Access"
+  }
+}
+
+##################################################################################
+# AMI
+##################################################################################
+
+# Get the AMI for Ubuntu 20.04
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-arm64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
 ##################################################################################
 # API
 ##################################################################################
 
 # Create the API EC2 instance, including the provisioning script.
 resource "aws_instance" "api" {
-  ami           = "ami-0bfa1783225ce047b"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "m6gd.large"
   subnet_id     = aws_subnet.public.id
-  user_data     = templatefile("${path.module}/aws-api-provision.tpl", { db_endpoint = aws_db_instance.db.endpoint })
+  user_data = templatefile("${path.module}/aws-api-provision.tftpl", {
+    db_endpoint     = aws_db_instance.db.endpoint,
+    search_endpoint = aws_instance.search.private_ip
+  })
 
   security_groups = [
     aws_security_group.api.id
@@ -218,18 +323,31 @@ resource "aws_db_instance" "db" {
 
 # Create the subnet group for the database.
 resource "aws_db_subnet_group" "db" {
-  subnet_ids = [aws_subnet.db-1.id, aws_subnet.db-2.id]
+  subnet_ids = [aws_subnet.private.id, aws_subnet.private_2.id]
 
   tags = {
     Name = "DD DB Subnet Group"
   }
 }
 
+
 ##################################################################################
 # Elastic Search
 ##################################################################################
 
+# Create the ElasticSearch EC2 instance, including the provisioning script.
+# Using EC2 as Amazon Educate doesn't seem to allow access to ElasticSearch
+resource "aws_instance" "search" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "m6gd.large"
+  user_data              = file("${path.module}/create-search-vm.sh")
+  vpc_security_group_ids = [aws_security_group.search.id]
+  subnet_id              = aws_subnet.private.id
 
+  tags = {
+    Name = "DD ElasticSearch"
+  }
+}
 
 ##################################################################################
 # Outputs

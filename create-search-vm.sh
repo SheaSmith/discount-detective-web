@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Fix for an apt lock issue
 systemctl disable apt-daily.service
 systemctl disable apt-daily.timer
