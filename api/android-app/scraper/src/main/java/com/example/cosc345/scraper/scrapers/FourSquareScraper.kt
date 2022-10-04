@@ -15,7 +15,6 @@ import com.example.cosc345.shared.models.*
  *
  * Then the local specials page for each region is scraped. This data is cleaned up in a similar way to the mailer data.
  *
- * @author Shea Smith
  * @constructor Create a new instance of this scraper.
  */
 class FourSquareScraper : Scraper() {
@@ -29,19 +28,30 @@ class FourSquareScraper : Scraper() {
         val stores = mutableListOf<Store>()
         val products = mutableListOf<RetailerProductInformation>()
 
-        val storeWhitelist =
-            arrayOf("Four Square Mitchells", "Four Square St Clair", "Four Square Port Chalmers")
+        val storeWhitelist = mapOf(
+            "Four Square Mitchells" to Region.DUNEDIN,
+            "Four Square St Clair" to Region.DUNEDIN,
+            "Four Square Port Chalmers" to Region.DUNEDIN,
+            "Four Square Ascot" to Region.INVERCARGILL,
+            "Four Square Newfield" to Region.INVERCARGILL,
+            "Four Square Bluff" to Region.INVERCARGILL,
+            "Four Square Otatara" to Region.INVERCARGILL,
+            "Four Square Buffalo Beach" to Region.WHITIANGA,
+            "Four Square Matarangi" to Region.WHITIANGA,
+            "Four Square Tairua" to Region.WHITIANGA
+        )
         val fourSquareStores = fourSquareJsonService.getStores()
 
-        fourSquareStores.forEach { fourSquareStore ->
-            if (storeWhitelist.contains(fourSquareStore.name)) {
+        fourSquareStores.forEach { (id, name, address, latitude, longitude, _) ->
+            if (storeWhitelist.contains(name)) {
                 val store = Store(
-                    id = fourSquareStore.id,
-                    name = fourSquareStore.name.replace(retailerName, "").trim(),
-                    address = fourSquareStore.address,
-                    latitude = fourSquareStore.latitude,
-                    longitude = fourSquareStore.longitude,
-                    automated = true
+                    id = id,
+                    name = name.replace(retailerName, "").trim(),
+                    address = address,
+                    latitude = latitude,
+                    longitude = longitude,
+                    automated = true,
+                    region = storeWhitelist[name]
                 )
                 stores.add(store)
             }
@@ -49,137 +59,144 @@ class FourSquareScraper : Scraper() {
 
         val regionsStoreMap = fourSquareStores.groupBy { it.region }
 
-        regionsStoreMap.forEach { regionMap ->
+        regionsStoreMap.forEach { (key, value) ->
             val mailerId =
-                fourSquareJsonService.getMailers(if (regionMap.key == "SI") "4316" else "3291")
+                fourSquareJsonService.getMailers(if (key == "SI") "4316" else "3291")
                     .first().id
 
-            val mailerProducts =
-                fourSquareJsonService.getProductsForMailer(mailerId).values.toTypedArray().flatten()
+            val regionStores = stores.filter { (id, _, _, _, _, _, _) -> value.any { it.id == id } }
 
-            mailerProducts.forEach { fourSquareProduct ->
-                if (fourSquareProduct.type == "product" && products.none { it.id == fourSquareProduct.name.trim() }) {
-                    val product = RetailerProductInformation(
-                        retailer = retailerId,
-                        id = fourSquareProduct.name.trim(),
-                        saleType = if (fourSquareProduct.saleType == "kg") SaleType.WEIGHT else SaleType.EACH,
-                        weight = if (fourSquareProduct.saleType == "kg") 1000 else null,
-                        image = fourSquareProduct.imageUrls.first(),
-                        automated = true,
-                        verified = false
-                    )
+            if (regionStores.isNotEmpty()) {
 
-                    var name = fourSquareProduct.name.trim()
+                val mailerProducts =
+                    fourSquareJsonService.getProductsForMailer(mailerId).values.toTypedArray()
+                        .flatten()
 
-                    Units.all.forEach {
-                        val pair = extractAndRemoveQuantity(name, it)
-
-                        if (pair.second != null) {
-                            name = pair.first
-
-                            when (it) {
-                                Units.GRAMS -> {
-                                    product.weight = pair.second?.toInt()
-                                }
-                                Units.KILOGRAMS -> {
-                                    product.weight = pair.second?.times(1000)?.toInt()
-                                }
-                                else -> {
-                                    product.weight = null
-                                }
-                            }
-
-                            product.quantity =
-                                "${product.quantity ?: ""} ${pair.second}${it}".trim()
-                        }
-                    }
-
-                    name = name
-                        .split(" excludes ", ignoreCase = true)[0]
-                        .replace(" range", "", ignoreCase = true)
-                        .replace(" loose", "", ignoreCase = true)
-                        .replace(" varieties", "")
-                        .replace(Regex("\\s+"), " ")
-                        .trim()
-
-                    product.name = name
-
-                    product.pricing = regionMap.value.map {
-                        StorePricingInformation(
-                            it.id,
-                            price = fourSquareProduct.price.toDouble().times(100).toInt(),
+                mailerProducts.forEach { (type, mailerName, price, saleType, imageUrls) ->
+                    if (type == "product" && products.none { it.id == mailerName.trim() }) {
+                        val product = RetailerProductInformation(
+                            retailer = retailerId,
+                            id = mailerName.trim(),
+                            saleType = if (saleType == "kg") SaleType.WEIGHT else SaleType.EACH,
+                            weight = if (saleType == "kg") 1000 else null,
+                            image = imageUrls.first(),
                             automated = true,
                             verified = false
                         )
-                    }.toMutableList()
 
-                    products.add(product)
+                        var name = mailerName.trim()
+
+                        Units.all.forEach {
+                            val pair = extractAndRemoveQuantity(name, it)
+
+                            if (pair.second != null) {
+                                name = pair.first
+
+                                when (it) {
+                                    Units.GRAMS -> {
+                                        product.weight = pair.second?.toInt()
+                                    }
+                                    Units.KILOGRAMS -> {
+                                        product.weight = pair.second?.times(1000)?.toInt()
+                                    }
+                                    else -> {
+                                        product.weight = null
+                                    }
+                                }
+
+                                product.quantity =
+                                    "${product.quantity ?: ""} ${pair.second}${it}".trim()
+                            }
+                        }
+
+                        name = name
+                            .split(" excludes ", ignoreCase = true)[0]
+                            .replace(" range", "", ignoreCase = true)
+                            .replace(" loose", "", ignoreCase = true)
+                            .replace(" varieties", "")
+                            .replace(Regex("\\s+"), " ")
+                            .trim()
+
+                        product.name = name
+
+                        product.pricing = regionStores.map {
+                            StorePricingInformation(
+                                it.id,
+                                price = price.toDouble().times(100).toInt(),
+                                automated = true,
+                                verified = false
+                            )
+                        }.toMutableList()
+
+                        products.add(product)
+                    }
                 }
-            }
 
-            val specialsProducts =
-                fourSquareHtmlService.getLocalSpecials("region_code=${regionMap.key};")
+                val specialsProducts =
+                    fourSquareHtmlService.getLocalSpecials("region_code=${key};")
 
-            specialsProducts.specials?.forEach { fourSquareProduct ->
-                if (products.none { it.id == fourSquareProduct.name?.trim() }) {
-                    val product = RetailerProductInformation(
-                        retailer = retailerId,
-                        id = fourSquareProduct.name?.trim(),
-                        saleType = if (fourSquareProduct.saleType == "kg") SaleType.WEIGHT else SaleType.EACH,
-                        weight = if (fourSquareProduct.saleType == "kg") 1000 else null,
-                        image = "${baseUrl}${fourSquareProduct.imagePath}",
-                        automated = true,
-                        verified = false
-                    )
-
-                    var name = fourSquareProduct.name!!.trim()
-
-                    Units.all.forEach {
-                        val pair = extractAndRemoveQuantity(name, it)
-
-                        if (pair.second != null) {
-                            name = pair.first
-
-                            when (it) {
-                                Units.GRAMS -> {
-                                    product.weight = pair.second?.toInt()
-                                }
-                                Units.KILOGRAMS -> {
-                                    product.weight = pair.second?.times(1000)?.toInt()
-                                }
-                                else -> {
-                                    product.weight = null
-                                }
-                            }
-
-                            product.quantity =
-                                "${product.quantity ?: ""} ${pair.second}${it}".trim()
-                        }
-                    }
-
-                    name = name
-                        .split(" excludes ", ignoreCase = true)[0]
-                        .replace(" range", "", ignoreCase = true)
-                        .replace(" loose", "", ignoreCase = true)
-                        .replace(" varieties", "")
-                        .replace(Regex("\\s+"), " ")
-                        .trim()
-
-                    product.name = name
-
-                    val price = "${fourSquareProduct.dollars}.${fourSquareProduct.cents}".toDouble()
-                        .times(100).toInt()
-
-                    product.pricing = regionMap.value.map {
-                        StorePricingInformation(
-                            it.id,
-                            price = price,
+                specialsProducts.specials?.forEach { (specialName, imagePath, dollars, cents, saleType) ->
+                    if (products.none { it.id == specialName?.trim() }) {
+                        val product = RetailerProductInformation(
+                            retailer = retailerId,
+                            id = specialName?.trim(),
+                            saleType = if (saleType == "kg") SaleType.WEIGHT else SaleType.EACH,
+                            weight = if (saleType == "kg") 1000 else null,
+                            image = "${baseUrl}${imagePath}",
                             automated = true,
                             verified = false
                         )
-                    }.toMutableList()
 
-                    products.add(product)
+                        var name = specialName!!.trim()
+
+                        Units.all.forEach {
+                            val pair = extractAndRemoveQuantity(name, it)
+
+                            if (pair.second != null) {
+                                name = pair.first
+
+                                when (it) {
+                                    Units.GRAMS -> {
+                                        product.weight = pair.second?.toInt()
+                                    }
+                                    Units.KILOGRAMS -> {
+                                        product.weight = pair.second?.times(1000)?.toInt()
+                                    }
+                                    else -> {
+                                        product.weight = null
+                                    }
+                                }
+
+                                product.quantity =
+                                    "${product.quantity ?: ""} ${pair.second}${it}".trim()
+                            }
+                        }
+
+                        name = name
+                            .split(" excludes ", ignoreCase = true)[0]
+                            .replace(" range", "", ignoreCase = true)
+                            .replace(" loose", "", ignoreCase = true)
+                            .replace(" varieties", "")
+                            .replace(Regex("\\s+"), " ")
+                            .trim()
+
+                        product.name = name
+
+                        val price =
+                            "${dollars}.${cents}".toDouble()
+                                .times(100).toInt()
+
+                        product.pricing = regionStores.map {
+                            StorePricingInformation(
+                                it.id,
+                                price = price,
+                                automated = true,
+                                verified = false
+                            )
+                        }.toMutableList()
+
+                        products.add(product)
+                    }
                 }
             }
         }

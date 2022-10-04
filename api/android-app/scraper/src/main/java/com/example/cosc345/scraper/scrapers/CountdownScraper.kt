@@ -17,7 +17,6 @@ import com.example.cosc345.shared.models.*
  *
  * Finally, each product is processed and tidied up.
  *
- * @author Shea Smith
  * @constructor Create a new instance of this scraper.
  */
 class CountdownScraper : Scraper() {
@@ -27,39 +26,51 @@ class CountdownScraper : Scraper() {
         val retailerId = "countdown"
         val retailerName = "Countdown"
 
+        val storeWhitelist = mapOf(
+            "1799246" to Region.INVERCARGILL,
+            "1488549" to Region.INVERCARGILL,
+            "1226961" to Region.DUNEDIN,
+            "2655603" to Region.DUNEDIN,
+            "2791790" to Region.DUNEDIN,
+            "2810973" to Region.DUNEDIN,
+            "2791816" to Region.DUNEDIN,
+            "2791350" to Region.WHITIANGA
+        )
+
         val stores: MutableList<Store> = mutableListOf()
         val products: MutableList<RetailerProductInformation> = mutableListOf()
         countdownService.getStores().siteDetails
-            .forEach { countdownStore ->
-                if (countdownStore.site.suburb == "Dunedin") {
+            .forEach { (site) ->
+                if (storeWhitelist.containsKey(site.storeId)) {
                     val addressList = mutableListOf(
-                        countdownStore.site.addressLine1.replace(
-                            ", ${countdownStore.site.suburb}",
+                        site.addressLine1.replace(
+                            ", ${site.suburb}",
                             ""
                         )
                     )
 
-                    if (countdownStore.site.addressLine2 != null) {
-                        addressList.add(countdownStore.site.addressLine2)
+                    if (site.addressLine2 != null) {
+                        addressList.add(site.addressLine2)
                     }
 
-                    addressList.add(countdownStore.site.suburb)
-                    addressList.add(countdownStore.site.postcode)
+                    addressList.add(site.suburb)
+                    addressList.add(site.postcode)
 
                     val store = Store(
-                        countdownStore.site.storeId,
-                        countdownStore.site.name.replace(retailerName, "").trim(),
+                        site.storeId,
+                        site.name.replace(retailerName, "").trim(),
                         addressList.joinToString(", "),
-                        countdownStore.site.latitude,
-                        countdownStore.site.longitude,
-                        true
+                        site.latitude,
+                        site.longitude,
+                        true,
+                        storeWhitelist[site.storeId]
                     )
                     stores.add(store)
 
-                    countdownService.setStore(CountdownSetStoreRequest(countdownStore.site.storeId.toInt()))
+                    countdownService.setStore(CountdownSetStoreRequest(site.storeId.toInt()))
 
                     val departments =
-                        countdownService.getDepartments().map { department -> department.url }
+                        countdownService.getDepartments().map { (url) -> url }
                     departments.forEach { countdownDepartment ->
                         var page = 1
                         // Dummy value for the first loop

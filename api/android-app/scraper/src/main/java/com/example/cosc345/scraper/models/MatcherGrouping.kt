@@ -6,7 +6,6 @@ import com.example.cosc345.shared.models.SaleType
 /**
  * A special class which aids in matching products based on their name, irrespective of the order of the words in the product name.
  *
- * @author Shea Smith
  * @constructor Create an instance of the class without needing to supply a product.
  */
 data class MatcherGrouping(
@@ -189,7 +188,17 @@ data class MatcherGrouping(
                         ignoreCase = true
                     )
                 } else {
-                    return quantity == other.quantity
+                    var comparisonQuantity1 = quantity
+                    if (quantity?.contains("ea") == true) {
+                        comparisonQuantity1 = null
+                    }
+
+                    var comparisonQuantity2 = other.quantity
+                    if (other.quantity?.contains("ea") == true) {
+                        comparisonQuantity2 = null
+                    }
+
+                    return comparisonQuantity1 == comparisonQuantity2
                 }
             }
 
@@ -246,10 +255,7 @@ data class MatcherGrouping(
      * Generates a hashcode for this class, taking into account the array. This is boilerplate suggested by Kotlin.
      */
     override fun hashCode(): Int {
-        var hashcode = name.size
-        hashcode += brand?.size ?: 0
-        hashcode += saleType.hashCode()
-        return hashcode
+        return saleType.hashCode()
     }
 }
 
@@ -257,5 +263,10 @@ data class MatcherGrouping(
  * Tidy up the string and remove specific special characters and double spaces.
  */
 fun String.tidy(): String {
-    return this.replace(Regex("[()\\-'\"]"), "").replace("\\s+", " ").replace("&", "And").trim()
+    return this
+        .replace(Regex("[()\\-'\"]"), "")
+        .replace("\\s+", " ")
+        .replace("&", "And")
+        .replace(Regex("s\\b"), "")
+        .trim()
 }

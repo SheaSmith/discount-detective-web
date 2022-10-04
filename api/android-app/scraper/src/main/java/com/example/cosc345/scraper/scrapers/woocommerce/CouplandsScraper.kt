@@ -2,15 +2,11 @@ package com.example.cosc345.scraper.scrapers.woocommerce
 
 import com.example.cosc345.scraper.models.ScraperResult
 import com.example.cosc345.scraper.scrapers.generic.WooCommerceScraper
-import com.example.cosc345.shared.models.Retailer
-import com.example.cosc345.shared.models.RetailerProductInformation
-import com.example.cosc345.shared.models.Store
-import com.example.cosc345.shared.models.Units
+import com.example.cosc345.shared.models.*
 
 /**
  * The Couplands specific implementation of the [WooCommerceScraper], which essentially just passes information through to it.
  *
- * @author William Hadden
  * @constructor Create a new instance of this scraper.
  */
 class CouplandsScraper : WooCommerceScraper(
@@ -26,7 +22,8 @@ class CouplandsScraper : WooCommerceScraper(
                 "560 Kaikorai Rd, Kenmure, Dunedin 9011",
                 -45.8864384,
                 170.4666199,
-                true
+                true,
+                Region.DUNEDIN
             ),
             Store(
                 "couplands-ab",
@@ -34,7 +31,17 @@ class CouplandsScraper : WooCommerceScraper(
                 "446 Andersons Bay Rd, South Dunedin, Dunedin 9012",
                 -45.8837276,
                 170.4878583,
-                true
+                true,
+                Region.DUNEDIN
+            ),
+            Store(
+                "couplands-ivc",
+                "Invercargill",
+                "85 North Road, Prestonville, Invercargill 9810",
+                46.3860511,
+                168.3455993,
+                true,
+                Region.INVERCARGILL
             )
         ),
         colourLight = 0xFFffdad7,

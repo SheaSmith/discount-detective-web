@@ -15,7 +15,6 @@ import com.example.cosc345.shared.models.*
  *
  * Each product is then processed and cleaned up as normal.
  *
- * @author Shea Smith
  * @constructor Create a new instance of this scraper.
  */
 class WarehouseScraper : Scraper() {
@@ -27,16 +26,22 @@ class WarehouseScraper : Scraper() {
         val stores = mutableListOf<Store>()
         val products = mutableListOf<RetailerProductInformation>()
 
-        val storeWhitelist = arrayOf("South Dunedin")
-        warehouseService.getStores().stores.forEach { warehouseStore ->
-            if (storeWhitelist.contains(warehouseStore.name)) {
+        val storeWhitelist = mapOf(
+            "South Dunedin" to Region.DUNEDIN,
+            "Invercargill" to Region.INVERCARGILL,
+            "Whitianga" to Region.WHITIANGA
+        )
+        warehouseService.getStores().stores.forEach { (branchId, storeName, latitude, longitude, _, address) ->
+            val name = storeName.split(" - ").first().trim()
+            if (storeWhitelist.contains(name)) {
                 val store = Store(
-                    id = warehouseStore.branchId,
-                    name = warehouseStore.name,
-                    address = warehouseStore.address.address,
-                    latitude = warehouseStore.latitude,
-                    longitude = warehouseStore.longitude,
-                    automated = true
+                    id = branchId,
+                    name = name,
+                    address = address.address,
+                    latitude = latitude,
+                    longitude = longitude,
+                    automated = true,
+                    region = storeWhitelist[name]
                 )
                 stores.add(store)
 
@@ -47,64 +52,64 @@ class WarehouseScraper : Scraper() {
 
                     while (start - 200 < total) {
                         val response =
-                            warehouseService.getProducts(start, category, warehouseStore.branchId)
+                            warehouseService.getProducts(start, category, branchId)
 
-                        response.products.forEach { warehouseProduct ->
-                            var product = products.firstOrNull { it.id == warehouseProduct.id }
+                        response.products.forEach { (id, originalProductName, imageUrl, barcode, brand, priceInfo, inventory, promotions) ->
+                            var product = products.firstOrNull { it.id == id }
 
                             if (product == null) {
                                 product = RetailerProductInformation(
                                     retailer = retailerId,
-                                    id = warehouseProduct.id,
-                                    brandName = warehouseProduct.brand,
+                                    id = id,
+                                    brandName = brand,
                                     saleType = SaleType.EACH,
-                                    barcodes = listOf(warehouseProduct.barcode),
-                                    image = warehouseProduct.imageUrl,
+                                    barcodes = listOf(barcode),
+                                    image = imageUrl,
                                     automated = true,
                                     verified = false
                                 )
 
-                                var name = warehouseProduct.name
-                                    .replace(warehouseProduct.brand, "", true)
+                                var productName = originalProductName
+                                    .replace(brand, "", true)
                                     .trim()
 
                                 val weightInGrams =
-                                    Units.GRAMS.regex.find(name)?.groups?.get(1)?.value?.toDouble()
+                                    Units.GRAMS.regex.find(productName)?.groups?.get(1)?.value?.toDouble()
                                         ?.toInt()
                                 val weightInKilograms =
-                                    Units.KILOGRAMS.regex.find(name)?.groups?.get(1)?.value?.toDouble()
+                                    Units.KILOGRAMS.regex.find(productName)?.groups?.get(1)?.value?.toDouble()
 
                                 product.weight =
                                     weightInGrams ?: weightInKilograms?.times(1000)?.toInt()
 
-                                name = name
+                                productName = productName
                                     .replace(Units.GRAMS.regex, "")
                                     .replace(Units.KILOGRAMS.regex, "")
                                     .replace(Regex("\\s+"), " ")
                                     .trim()
 
-                                if (name.isEmpty()) {
-                                    name = warehouseProduct.brand
+                                if (productName.isEmpty()) {
+                                    productName = brand
                                     product.brandName = null
                                 }
 
-                                product.name = name
+                                product.name = productName
                                 product.quantity =
                                     if (weightInGrams != null) "${weightInGrams}${Units.GRAMS}" else "${weightInKilograms}${Units.KILOGRAMS}"
                             }
 
-                            if (warehouseProduct.inventory.available && product.pricing?.none { it.store == warehouseStore.branchId } != false) {
+                            if (inventory.available && product.pricing?.none { it.store == branchId } != false) {
                                 if (product.pricing == null) {
                                     product.pricing = mutableListOf()
                                     products.add(product)
                                 }
 
                                 val pricing = StorePricingInformation(
-                                    store = warehouseStore.branchId,
-                                    price = if (warehouseProduct.priceInfo.date == null) warehouseProduct.priceInfo.price.times(
+                                    store = branchId,
+                                    price = if (priceInfo.date == null) priceInfo.price.times(
                                         100
                                     ).toInt() else null,
-                                    discountPrice = if (warehouseProduct.priceInfo.date != null) warehouseProduct.priceInfo.price.times(
+                                    discountPrice = if (priceInfo.date != null) priceInfo.price.times(
                                         100
                                     ).toInt() else null,
                                     verified = false,
@@ -112,7 +117,7 @@ class WarehouseScraper : Scraper() {
                                 )
 
                                 val discount =
-                                    warehouseProduct.promotions.firstOrNull { it.price != null }
+                                    promotions.firstOrNull { it.price != null }
 
                                 if (discount != null) {
                                     pricing.discountPrice = discount.price?.times(100)?.toInt()
@@ -122,7 +127,7 @@ class WarehouseScraper : Scraper() {
                                 }
 
                                 val multiBuy =
-                                    warehouseProduct.promotions.firstOrNull { it.association != null }
+                                    promotions.firstOrNull { it.association != null }
                                 if (multiBuy != null) {
                                     pricing.multiBuyQuantity =
                                         (multiBuy.association?.quantity1

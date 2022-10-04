@@ -3,6 +3,8 @@ package com.example.cosc345.scraper.scrapers.generic
 import com.example.cosc345.scraper.api.WooComAPI
 import com.example.cosc345.scraper.interfaces.Scraper
 import com.example.cosc345.scraper.models.ScraperResult
+import com.example.cosc345.shared.extensions.capitaliseNZ
+import com.example.cosc345.shared.extensions.titleCase
 import com.example.cosc345.shared.models.*
 
 
@@ -18,7 +20,6 @@ import com.example.cosc345.shared.models.*
  * @param retailer The retailer to return.
  * @param baseUrl The base URL that all API requests are made relative to.
  *
- * @author William Hadden
  * @constructor Create a new instance of this scraper, for the retailer specified in the constructor.
  */
 abstract class WooCommerceScraper(
@@ -27,6 +28,9 @@ abstract class WooCommerceScraper(
     private val baseUrl: String,
     private val bannedCategories: List<Int> = listOf()
 ) : Scraper() {
+    /**
+     * A map specifically for determining which Mad Butcher products are sold per-kg.
+     */
     protected var madButcherMap: Map<String, String>? = null
 
     override suspend fun runScraper(): ScraperResult {
@@ -41,20 +45,20 @@ abstract class WooCommerceScraper(
             //for each product in service
             wooComService.getProducts(page)
                 .filter {
-                    it.inStock && it.categories.none { category ->
+                    it.inStock && it.categories?.none { (categoryId, _) ->
                         bannedCategories.contains(
-                            category.id
+                            categoryId
                         )
-                    }
+                    } != false
                 }
-                .forEach { wooComProduct ->
+                .forEach { (wooComId, wooComName, _, onSale, _, prices, images, _, permaLink, _, attributes) ->
 
                     //can be found from permalink
                     val product = RetailerProductInformation(
                         retailer = id,
-                        id = wooComProduct.id,
-                        name = wooComProduct.name,
-                        image = wooComProduct.images.firstOrNull()?.url,
+                        id = wooComId,
+                        name = wooComName,
+                        image = images.firstOrNull()?.url,
                         saleType = SaleType.EACH,
                         automated = true,
                         verified = false
@@ -63,15 +67,15 @@ abstract class WooCommerceScraper(
                     product.pricing = retailer.stores!!.map {
                         StorePricingInformation(
                             it.id,
-                            wooComProduct.prices.price.toInt(),
-                            discountPrice = if (wooComProduct.onSale) wooComProduct.prices.discountPrice.toInt() else null,
+                            prices.price.toIntOrNull() ?: (prices.price.toDouble() * 100).toInt(),
+                            discountPrice = if (onSale) prices.discountPrice.toInt() else null,
                             automated = true,
                             verified = false
                         )
                     }.toMutableList()
 
                     val weightCandidate =
-                        wooComProduct.attributes.firstOrNull { it.name == "Weight" }?.terms?.first()
+                        attributes?.firstOrNull { it.name == "Weight" }?.terms?.first()
 
                     if (weightCandidate != null) {
                         val weightInGrams =
@@ -89,11 +93,14 @@ abstract class WooCommerceScraper(
                     }
 
                     //replace ascii with "-"
-                    var name = wooComProduct.name.replace("&#8211;".toRegex(), "-")
+                    var name = wooComName.replace("&#8211;".toRegex(), "-")
                         .replace("&#8216;".toRegex(), "-")
                         .replace("&#8217;".toRegex(), "-")
                         .replace("&#038;".toRegex(), "-")
                         .replace("*", "")
+                        .lowercase()
+                        .titleCase()
+                        .capitaliseNZ()
                         .trim()
 
                     Units.all.forEach {
@@ -135,7 +142,7 @@ abstract class WooCommerceScraper(
                     product.name = name
 
                     if (product.weight == null && madButcherMap != null) {
-                        product.saleType = madButcherMap!![wooComProduct.permaLink]
+                        product.saleType = madButcherMap!![permaLink]
 
                         if (product.saleType == SaleType.WEIGHT)
                             product.weight = 1000

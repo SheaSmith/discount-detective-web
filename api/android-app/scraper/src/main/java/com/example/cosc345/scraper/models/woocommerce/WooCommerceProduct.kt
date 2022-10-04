@@ -6,7 +6,6 @@ import com.squareup.moshi.JsonClass
 /**
  * A particular product on a WooCommerce store.
  *
- * @author William Hadden
  * @constructor Create a new instance of this object. This should only be used by Moshi.
  */
 @JsonClass(generateAdapter = true)
@@ -57,7 +56,7 @@ data class WooCommerceProduct(
      * The categories this product belongs to.
      */
     @Json(name = "categories")
-    val categories: List<WooCommerceCategory>,
+    val categories: List<WooCommerceCategory>?,
 
     /**
      * A URL for this particular product.
@@ -69,12 +68,12 @@ data class WooCommerceProduct(
      * The different variations of this product.
      */
     @Json(name = "variations")
-    val variants: List<WooCommerceVariant>,
+    val variants: List<WooCommerceVariant>?,
 
     /**
      * The different attributes which can be used to price this product.
      */
     @Json(name = "attributes")
-    val attributes: List<WooCommerceAttribute>
+    val attributes: List<WooCommerceAttribute>?
 )
 
