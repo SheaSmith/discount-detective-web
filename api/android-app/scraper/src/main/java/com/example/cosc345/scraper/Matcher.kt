@@ -29,7 +29,7 @@ class Matcher {
      */
     suspend fun runScrapers(): Pair<Map<String, Retailer>, List<RetailerProductInformation>> {
         val scrapers = setOf(
-            CountdownScraper(),
+            //CountdownScraper(),
             NewWorldScraper(),
             PakNSaveScraper(),
             FreshChoiceScraper(),
@@ -44,7 +44,7 @@ class Matcher {
             MadButcherScraper(),
             OriginFoodScraper(),
             TasteNatureScraper(),
-            FourSquareScraper(),
+            //FourSquareScraper(),
             RobertsonsMeatsScraper(),
             VeggieBoysScraper(),
             WarehouseScraper(),
